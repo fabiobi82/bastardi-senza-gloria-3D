@@ -162,7 +162,7 @@
     </div>
 
 <script>
-    // --- I18N COMPLETAMENTE REVISIONATA ---
+    // --- I18N ---
     const i18n = {
         it: { flag: "🇮🇹", title: "BASTARDI SENZA GLORIA 3D", play: "GIOCA", shop: "SHOP", missions: "MISSIONI", guide: "GUIDA", guideTitle: "MANUALE DEL BASTARDO", hs: "HIGH SCORE:", bank: "Banca:", hudCoins: "Monete:", controls: "⬅️ ➡️ Sposta | <b>SPAZIO</b> Salta | ⬇️ Scivola (Tieni premuto) | ⬆️ Lancia | <b>ESC</b> Pausa | <b>G</b> GodMode", shopTitle: "Taverna / Shop", shopCoins: "Monete:", skinsTitle: "I BASTARDI", powerupsTitle: "POTENZIAMENTI DEFINITIVI", buy: "Compra", equip: "Equipaggia", equipped: "Equipaggiato", back: "INDIETRO", pause: "PAUSA", pauseDesc: "Premi ESC per riprendere", resume: "RIPRENDI", quit: "ABBANDONA RUN", crash: "SCHIANTO!", finalScore: "Score Finale:", finalCoins: "Monete:", retry: "RIPROVA", menu: "MENU", mTitle: "Missioni", mDesc: "Sali di livello completando le sfide!", claim: "Riscatta", completed: "Completata", m1: "Raccogli Monete", m2: "Esegui Scivolate", m3: "Gioca Partite", shieldName: "Scudo 🛡️", magnetName: "Calamita 🧲", owned: "Posseduti:", upgMagnet: "Lvl Calamita", upgJetpack: "Lvl Jetpack", upgSonic: "Lvl Sonic Boom", upgWeapon: "Lvl Arma", max: "MAX", consumablesTitle: "SCORTE", dodge: "SCHIVATA!", speedUp: "VELOCITÀ SUPER!", bossWarning: "ATTENZIONE BOSS!", bossDefeated: "BOSS SCONFITTO!", stageCleared: "LIVELLO COMPLETATO!", sonicBoom: "SONIC BOOM!", godModeOn: "GOD MODE ON", godModeOff: "GOD MODE OFF", ready: "PRONTO", descBase: "Lancia Tappi. Nessun bonus.", descPinzu: "Salto Super + Fuoco", descNiddu: "Monete x2 + Ossa" },
         en: { flag: "🇬🇧", title: "INGLOURIOUS BASTERDS 3D", play: "PLAY", shop: "STORE", missions: "MISSIONS", guide: "GUIDE", guideTitle: "BASTERDS MANUAL", hs: "HIGH SCORE:", bank: "Bank:", hudCoins: "Coins:", controls: "⬅️ ➡️ Move | <b>SPACE</b> Jump | ⬇️ Slide (Hold) | ⬆️ Throw | <b>ESC</b> Pause | <b>G</b> GodMode", shopTitle: "Tavern / Store", shopCoins: "Coins:", skinsTitle: "THE BASTERDS", powerupsTitle: "PERMANENT UPGRADES", buy: "Buy", equip: "Equip", equipped: "Equipped", back: "BACK", pause: "PAUSED", pauseDesc: "Press ESC to resume", resume: "RESUME", quit: "QUIT RUN", crash: "CRASHED!", finalScore: "Final Score:", finalCoins: "Coins:", retry: "RETRY", menu: "MENU", mTitle: "Missions", mDesc: "Level up by completing tasks!", claim: "Claim", completed: "Completed", m1: "Collect Coins", m2: "Perform Slides", m3: "Play Games", shieldName: "Shield 🛡️", magnetName: "Magnet 🧲", owned: "Owned:", upgMagnet: "Magnet Lvl", upgJetpack: "Jetpack Lvl", upgSonic: "Sonic Lvl", upgWeapon: "Weapon Lvl", max: "MAX", consumablesTitle: "SUPPLIES", dodge: "CLOSE CALL!", speedUp: "SPEED UP!", bossWarning: "BOSS WARNING!", bossDefeated: "BOSS DEFEATED!", stageCleared: "STAGE CLEARED!", sonicBoom: "SONIC BOOM!", godModeOn: "GOD MODE ON", godModeOff: "GOD MODE OFF", ready: "READY", descBase: "Throws Caps. No bonus.", descPinzu: "Super Jump + Fire", descNiddu: "Coins x2 + Bones" }
@@ -260,6 +260,7 @@
     function openShop() { gameState="SHOP"; switchScreen("shopMenu"); updateBankDisplay(); renderShop(); }
     
     function renderShop() {
+        updateBankDisplay(); // SYNC SOLDI IN TEMPO REALE!
         const t = i18n[lang]; document.getElementById("btnBuyShield").disabled = totalBankCoins < 50; document.getElementById("btnBuyMagnet").disabled = totalBankCoins < 100; document.getElementById("magnetInv").innerText = inventory.magnet; document.getElementById("shieldInv").innerText = inventory.shield;
         
         const types = ['magnet', 'jetpack', 'sonic', 'weapon'];
@@ -282,7 +283,7 @@
         });
     }
     
-    function buySkin(id) { if(totalBankCoins>=skinData[id].cost && !unlockedSkins.includes(id)){ totalBankCoins-=skinData[id].cost; localStorage.setItem("runnerBankCoins", totalBankCoins); unlockedSkins.push(id); localStorage.setItem('runnerSkins', JSON.stringify(unlockedSkins)); equipSkin(id); } }
+    function buySkin(id) { if(totalBankCoins>=skinData[id].cost && !unlockedSkins.includes(id)){ totalBankCoins-=skinData[id].cost; localStorage.setItem("runnerBankCoins", totalBankCoins); unlockedSkins.push(id); localStorage.setItem('runnerSkins', JSON.stringify(unlockedSkins)); equipSkin(id); renderShop(); } }
     function buyItem(item, price) { if(totalBankCoins>=price){ totalBankCoins-=price; localStorage.setItem("runnerBankCoins", totalBankCoins); if(item==='magnet'){inventory.magnet++;localStorage.setItem("runnerMagnets",inventory.magnet);} if(item==='shield'){inventory.shield++;localStorage.setItem("runnerShields",inventory.shield);} renderShop(); } }
     
     function upgradeBoost(type) { 
@@ -322,7 +323,7 @@
     function updateCombo() { if(comboTimer > 0) { comboTimer--; document.getElementById("comboBar").style.width = (comboTimer/MAX_COMBO_TIME)*100 + "%"; if(comboTimer <= 0) { combo = 0; comboMult = 1; document.getElementById("comboContainer").style.display = "none"; } } }
     function showFloatingText(txt) { let el = document.createElement("div"); el.className = "floating-text"; el.innerText = txt; document.body.appendChild(el); setTimeout(()=> el.remove(), 1200); }
 
-    // --- SETUP SCENA THREE.JS E CACHE MATERIALI (PERFORMANCE HD) ---
+    // --- SETUP SCENA THREE.JS ---
     const scene = new THREE.Scene(); const tColBg=new THREE.Color(); const tColGr=new THREE.Color(); const tColTr=new THREE.Color(); const tColRail=new THREE.Color();
     scene.background = new THREE.Color(0x87CEEB); scene.fog = new THREE.Fog(0x87CEEB, 20, 100);
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 200); 
@@ -336,6 +337,8 @@
     document.body.appendChild(renderer.domElement);
     
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.8); scene.add(hemiLight);
+    
+    // OMBRE HD E FIXATE
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.9); 
     dirLight.position.set(10, 30, 0); 
     dirLight.target.position.set(0, 0, -30); 
@@ -345,7 +348,7 @@
     dirLight.shadow.camera.near = 0.5; dirLight.shadow.camera.far = 100;
     scene.add(dirLight); scene.add(dirLight.target);
     
-    // CACHE MATERIALI GLOBALI PER PREVENIRE MEMORY LEAKS
+    // CACHE MATERIALI GLOBALI
     const coinGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.1, 8);
     const coinMat = new THREE.MeshPhongMaterial({color:0xffd700, specular:0xffffff, shininess:100, emissive:0x442200}); 
     const pedGeo = new THREE.CylinderGeometry(0.8, 0.2, 0.8, 8);
@@ -438,6 +441,9 @@
         return beerBottle;
     }
 
+    // ==========================================
+    // SISTEMA COSTRUZIONE PERSONAGGI VOXEL
+    // ==========================================
     const playerGroup = new THREE.Group(); scene.add(playerGroup);
     const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(1.5,16,16), new THREE.MeshBasicMaterial({color:0x4488ff, transparent:true, opacity:0.4, wireframe:true})); shieldMesh.position.y = 1.0; shieldMesh.visible=false; playerGroup.add(shieldMesh);
     
@@ -641,7 +647,7 @@
             let base = new THREE.Mesh(geoCyberBase, matCyberBase); base.position.y = 2.5; obj.add(base);
             let ring = new THREE.Mesh(geoCyberRing, Math.random()>0.5 ? matCyberRing1 : matCyberRing2); ring.position.y = 2 + Math.random()*2; obj.add(ring);
         } else { 
-            let base = new THREE.Mesh(new THREE.BoxGeometry(2, 3+Math.random()*3, 2), matLavaBase); base.position.y = 1.5; obj.add(base); // Cache was unit box, simple scale here
+            let base = new THREE.Mesh(new THREE.BoxGeometry(2, 3+Math.random()*3, 2), matLavaBase); base.position.y = 1.5; obj.add(base);
             let lava = new THREE.Mesh(geoLavaTop, matLavaTop); lava.position.y = 2; obj.add(lava);
         }
         obj.position.set(xPos, 0, -100); scene.add(obj); envObjects.push(obj);
@@ -667,7 +673,7 @@
             else if(type === 'weapon') icon = createEmojiSprite("⚔️");
             else if(type === 'jetpack') icon = createEmojiSprite("🚀"); 
             
-            icon.position.y = 1.0; 
+            icon.position.y = 1.5; 
             b.add(ped); b.add(icon);
             b.position.set(lanes[lane], 0.1, spawnZ); b.boostType = type; scene.add(b); trackBoosts.push(b);
         } else if(rnd<0.10) { 
@@ -790,9 +796,6 @@
         else if(isJumping){ 
             playerY+=jumpVelocity; jumpVelocity+=pGravity; 
             
-            legL.rotation.x = -0.5; legR.rotation.x = 0.5; 
-            armL.rotation.x = 2.5; armR.rotation.x = 2.5; 
-
             let maxJ = 0.45; 
             let jumpProgress = (maxJ - jumpVelocity) / (maxJ * 2); 
             jumpProgress = Math.max(0, Math.min(1, jumpProgress)); 
@@ -989,7 +992,7 @@
 
         for(let i=0;i<trackBoosts.length;i++){
             let b=trackBoosts[i]; 
-            if(b.userData && b.userData.isSprite) { b.position.z+=currentSpeed; } else { b.rotation.y+=0.05; b.position.z+=currentSpeed; }
+            if(b.userData && b.userData.isSprite) { b.position.z+=currentSpeed; } else { b.children[0].rotation.y+=0.05; b.position.z+=currentSpeed; } // Solo il piedistallo ruota, non l'emoji!
             let dZ=Math.abs(playerGroup.position.z-b.position.z); let dX=Math.abs(playerGroup.position.x-b.position.x); 
             let dY=Math.abs(playerY+1-b.position.y); 
             
