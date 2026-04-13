@@ -252,7 +252,6 @@
     unlockedSkins = unlockedSkins.filter(id => skinData[id]); if(unlockedSkins.length === 0) unlockedSkins = ['default'];
     let currentSkin = localStorage.getItem('runnerEquipped') || 'default'; if(!skinData[currentSkin]) currentSkin = 'default';
     
-    // SISTEMA DI SALVATAGGIO E SINCRONIZZAZIONE
     function saveStats() { 
         localStorage.setItem('runnerStats', JSON.stringify(stats)); 
         localStorage.setItem("runnerBankCoins", totalBankCoins); 
@@ -281,7 +280,7 @@
     function openShop() { gameState="SHOP"; updateBankDisplay(); switchScreen("shopMenu"); renderShop(); }
     
     function renderShop() {
-        updateBankDisplay(); // Aggiornamento istantaneo UI Bancomat
+        updateBankDisplay(); 
         const t = i18n[lang]; 
         document.getElementById("btnBuyShield").disabled = totalBankCoins < 50; 
         document.getElementById("btnBuyMagnet").disabled = totalBankCoins < 100; 
@@ -368,7 +367,7 @@
     function updateCombo() { if(comboTimer > 0) { comboTimer--; document.getElementById("comboBar").style.width = (comboTimer/MAX_COMBO_TIME)*100 + "%"; if(comboTimer <= 0) { combo = 0; comboMult = 1; document.getElementById("comboContainer").style.display = "none"; } } }
     function showFloatingText(txt) { let el = document.createElement("div"); el.className = "floating-text"; el.innerText = txt; document.body.appendChild(el); setTimeout(()=> el.remove(), 1200); }
 
-    // --- SETUP SCENA THREE.JS E CACHE MATERIALI (ANTI-LAG) ---
+    // --- SETUP SCENA THREE.JS E CACHE MATERIALI ---
     const scene = new THREE.Scene(); const tColBg=new THREE.Color(); const tColGr=new THREE.Color(); const tColTr=new THREE.Color(); const tColRail=new THREE.Color();
     scene.background = new THREE.Color(0x87CEEB); scene.fog = new THREE.Fog(0x87CEEB, 20, 100);
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 200); 
@@ -377,38 +376,29 @@
     camera.position.set(baseCamX, baseCamY, baseCamZ); camera.lookAt(0, 3, -10);
     
     const renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(window.innerWidth, window.innerHeight); 
-    renderer.shadowMap.enabled = true; 
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
     document.body.appendChild(renderer.domElement);
     
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.8); scene.add(hemiLight);
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.9); 
-    dirLight.position.set(10, 30, 0); 
-    dirLight.target.position.set(0, 0, -30); 
+    dirLight.position.set(10, 30, 0); dirLight.target.position.set(0, 0, -30); 
     dirLight.castShadow = true; 
-    dirLight.shadow.mapSize.width = 2048; dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.mapSize.width = 1024; dirLight.shadow.mapSize.height = 1024;
     dirLight.shadow.camera.top = 40; dirLight.shadow.camera.bottom = -40; dirLight.shadow.camera.left = -20; dirLight.shadow.camera.right = 20;
-    dirLight.shadow.camera.near = 0.5; dirLight.shadow.camera.far = 100;
     scene.add(dirLight); scene.add(dirLight.target);
     
-    // CACHE GEOMETRIE E MATERIALI (RISOLVE I MEMORY LEAKS E FREEZE)
-    const coinGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.1, 16);
-    const coinMat = new THREE.MeshPhongMaterial({color:0xffd700, specular:0xffffff, shininess:100, emissive:0x442200}); 
-    const pedGeo = new THREE.CylinderGeometry(0.8, 0.2, 0.8, 8);
-    const pedMat = new THREE.MeshLambertMaterial({color:0xffffff, transparent:true, opacity:0.5});
-    const matTransennaYellow = new THREE.MeshLambertMaterial({color: 0xffcc00});
-    const matTransennaRed = new THREE.MeshLambertMaterial({color: 0xdd0000});
-    
+    // CACHE GLOBALE GEOMETRIE E MATERIALI
+    const coinGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.1, 16); const coinMat = new THREE.MeshPhongMaterial({color:0xffd700, specular:0xffffff, shininess:100, emissive:0x442200}); 
+    const pedGeo = new THREE.CylinderGeometry(0.8, 0.2, 0.8, 8); const pedMat = new THREE.MeshLambertMaterial({color:0xffffff, transparent:true, opacity:0.5});
+    const matTransennaYellow = new THREE.MeshLambertMaterial({color: 0xffcc00}); const matTransennaRed = new THREE.MeshLambertMaterial({color: 0xdd0000});
     const geoProjFire = new THREE.SphereGeometry(0.3, 8, 8); const matProjFire = new THREE.MeshBasicMaterial({color: 0xff4500});
     const geoProjBone1 = new THREE.CylinderGeometry(0.08, 0.08, 0.6, 8); const geoProjBone2 = new THREE.SphereGeometry(0.12, 8, 8); const matProjBone = new THREE.MeshBasicMaterial({color: 0xffffff});
     const geoProjCap1 = new THREE.CylinderGeometry(0.2, 0.2, 0.05, 16); const matProjCap1 = new THREE.MeshBasicMaterial({color: 0xdddddd});
     const geoProjCap2 = new THREE.CylinderGeometry(0.15, 0.15, 0.06, 16); const matProjCap2 = new THREE.MeshBasicMaterial({color: 0xff0000});
-
     const geoBomb = new THREE.BoxGeometry(0.8, 0.8, 0.8); const matBomb = new THREE.MeshLambertMaterial({color:0x222222});
     const geoFuse = new THREE.CylinderGeometry(0.05, 0.05, 0.3); const matFuse = new THREE.MeshBasicMaterial({color:0xffaa00});
     const geoBeam = new THREE.CylinderGeometry(0.4, 0.4, 10, 8); const matBeam = new THREE.MeshBasicMaterial({color:0xff0000, transparent:true, opacity:0.8});
     const geoRock = new THREE.DodecahedronGeometry(1.2); const matRock = new THREE.MeshLambertMaterial({color:0x331100, emissive:0x220000});
-    
     const geoTreeTrunk = new THREE.BoxGeometry(0.8, 3, 0.8); const matTreeTrunk = new THREE.MeshLambertMaterial({color:0x5C4033});
     const geoTreeL1 = new THREE.BoxGeometry(3, 1.5, 3); const geoTreeL2 = new THREE.BoxGeometry(2, 1.5, 2); const geoTreeL3 = new THREE.BoxGeometry(1, 1.5, 1); const matTreeLeaf = new THREE.MeshLambertMaterial({color:0x228B22});
     const geoCyberBase = new THREE.BoxGeometry(1.5, 5, 1.5); const matCyberBase = new THREE.MeshLambertMaterial({color: 0x111122});
@@ -425,10 +415,8 @@
         let canvas = document.createElement('canvas'); canvas.width = 128; canvas.height = 128;
         let ctx = canvas.getContext('2d'); ctx.font = "100px Arial"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(emoji, 64, 64);
         let tex = new THREE.CanvasTexture(canvas); let mat = new THREE.SpriteMaterial({map: tex, transparent: true});
-        let sprite = new THREE.Sprite(mat); 
-        sprite.scale.set(3.5, 3.5, 3.5); 
-        emojiCache[emoji] = sprite;
-        return sprite.clone();
+        let sprite = new THREE.Sprite(mat); sprite.scale.set(3.5, 3.5, 3.5); 
+        emojiCache[emoji] = sprite; return sprite.clone();
     }
 
     const groundMat = new THREE.MeshLambertMaterial({ color: 0x228B22 }); const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), groundMat); ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
@@ -489,17 +477,6 @@
         } 
     }
 
-    function createBeer() {
-        const beerBottle = new THREE.Group();
-        const glassMat = new THREE.MeshLambertMaterial({color: 0x5c2c00}); 
-        const bBody = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.3, 16), glassMat);
-        const bNeck = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.08, 0.1, 16), glassMat); bNeck.position.y = 0.2;
-        const bCap = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.02, 16), new THREE.MeshLambertMaterial({color: 0xff0000})); bCap.position.y = 0.26;
-        const bLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.082, 0.082, 0.15, 16), new THREE.MeshLambertMaterial({color: 0xffddaa})); bLabel.position.y = 0;
-        beerBottle.add(bBody); beerBottle.add(bNeck); beerBottle.add(bCap); beerBottle.add(bLabel);
-        return beerBottle;
-    }
-
     // ==========================================
     // SISTEMA COSTRUZIONE PERSONAGGI VOXEL
     // ==========================================
@@ -543,18 +520,16 @@
         }
     }
 
-    function createVoxelLimb(group, isArm, type, side) {
+    function createVoxelLimb(group, isArm, type) {
         while(group.children.length > 0) group.remove(group.children[0]);
         let mat = new THREE.MeshLambertMaterial({color: isArm ? skinData[type].skin : 0x222222});
-        
         let w = 0.3, h = 0.8, d = 0.3;
         if(type === 'pinzu' && isArm) { h = 0.4; w = 0.2; d = 0.2; }
         if(type === 'pinzu' && !isArm) { w = 0.4; d = 0.4; }
 
         let mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
         mesh.position.y = -h/2 + (isArm ? 0.1 : 0.4); 
-        mesh.castShadow = true;
-        group.add(mesh);
+        mesh.castShadow = true; group.add(mesh);
     }
 
     function equipSkin(id) { 
@@ -574,16 +549,8 @@
         }
 
         createVoxelFace(head, id);
-        createVoxelLimb(armL, true, id, 'L');
-        createVoxelLimb(armR, true, id, 'R');
-        createVoxelLimb(legL, false, id, 'L');
-        createVoxelLimb(legR, false, id, 'R');
-
-        const beer = createBeer(); 
-        beer.name = "floatingBeer";
-        beer.position.set(0, (id==='pinzu'?-0.2:-0.6), -0.2); 
-        beer.rotation.x = -Math.PI / 4;
-        armR.add(beer);
+        createVoxelLimb(armL, true, id); createVoxelLimb(armR, true, id);
+        createVoxelLimb(legL, false, id); createVoxelLimb(legR, false, id);
 
         renderShop(); 
     }
@@ -1048,19 +1015,14 @@
             } else if(o.position.z>10){ scene.remove(o); obstacles.splice(i,1); i--; }
         }
 
+        // QUESTO È IL FIX CHE SALVA IL GIOCO
         for(let i=0;i<trackBoosts.length;i++){
             let b=trackBoosts[i]; 
+            b.position.z += currentSpeed;
+            if(b.boostType !== 'oil' && b.children.length > 0) { 
+                b.children[0].rotation.y += 0.05; // Ruota solo se esiste un piedistallo (bambino)
+            } 
             
-            // FIX ANTICRASH TOTALE SUI POWER-UP
-            if(b.boostType === 'oil') { 
-                b.position.z += currentSpeed; 
-            } else if (b.children.length > 0) { 
-                b.children[0].rotation.y += 0.05; 
-                b.position.z += currentSpeed; 
-            } else {
-                b.position.z += currentSpeed;
-            }
-
             let dZ=Math.abs(playerGroup.position.z-b.position.z); let dX=Math.abs(playerGroup.position.x-b.position.x); 
             let dY=Math.abs(playerY+1-b.position.y); 
             
@@ -1094,11 +1056,7 @@
             }else if(c.position.z>10){scene.remove(c);coins.splice(i,1);i--;}
         }
 
-        if(cameraShake > 0) { camera.position.x = baseCamX + (Math.random()-0.5)*cameraShake; camera.position.y = baseCamY + (Math.random()-0.5)*cameraShake; cameraShake*=0.8; if(cameraShake<0.01) cameraShake=0; } 
-        else { camera.position.x = baseCamX; camera.position.y = baseCamY; }
-        camera.lookAt(0, 3, -10);
-
-        if(Math.random()<0.04+(currentSpeed*0.01))spawnEntity(); if(Math.random()<0.1)spawnScenery(); renderer.render(scene, camera);
+        renderer.render(scene, camera);
     }
 
     window.addEventListener("resize",()=>{camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight);});
