@@ -162,7 +162,7 @@
     </div>
 
 <script>
-    // --- I18N ---
+    // --- I18N COMPLETAMENTE REVISIONATA E BLINDATA ---
     const i18n = {
         it: { flag: "🇮🇹", title: "BASTARDI SENZA GLORIA 3D", play: "GIOCA", shop: "SHOP", missions: "MISSIONI", guide: "GUIDA", guideTitle: "MANUALE DEL BASTARDO", hs: "HIGH SCORE:", bank: "Banca:", hudCoins: "Monete:", controls: "⬅️ ➡️ Sposta | <b>SPAZIO</b> Salta | ⬇️ Scivola (Tieni premuto) | ⬆️ Lancia | <b>ESC</b> Pausa | <b>G</b> GodMode", shopTitle: "Taverna / Shop", shopCoins: "Monete:", skinsTitle: "I BASTARDI", powerupsTitle: "POTENZIAMENTI DEFINITIVI", buy: "Compra", equip: "Equipaggia", equipped: "Equipaggiato", back: "INDIETRO", pause: "PAUSA", pauseDesc: "Premi ESC per riprendere", resume: "RIPRENDI", quit: "ABBANDONA RUN", crash: "SCHIANTO!", finalScore: "Score Finale:", finalCoins: "Monete:", retry: "RIPROVA", menu: "MENU", mTitle: "Missioni", mDesc: "Sali di livello completando le sfide!", claim: "Riscatta", completed: "Completata", m1: "Raccogli Monete", m2: "Esegui Scivolate", m3: "Gioca Partite", shieldName: "Scudo 🛡️", magnetName: "Calamita 🧲", owned: "Posseduti:", upgMagnet: "Lvl Calamita", upgJetpack: "Lvl Jetpack", upgSonic: "Lvl Sonic Boom", upgWeapon: "Lvl Arma", max: "MAX", consumablesTitle: "SCORTE", dodge: "SCHIVATA!", speedUp: "VELOCITÀ SUPER!", bossWarning: "ATTENZIONE BOSS!", bossDefeated: "BOSS SCONFITTO!", stageCleared: "LIVELLO COMPLETATO!", sonicBoom: "SONIC BOOM!", godModeOn: "GOD MODE ON", godModeOff: "GOD MODE OFF", ready: "PRONTO", descBase: "Lancia Tappi. Nessun bonus.", descPinzu: "Salto Super + Fuoco", descNiddu: "Monete x2 + Ossa" },
         en: { flag: "🇬🇧", title: "INGLOURIOUS BASTERDS 3D", play: "PLAY", shop: "STORE", missions: "MISSIONS", guide: "GUIDE", guideTitle: "BASTERDS MANUAL", hs: "HIGH SCORE:", bank: "Bank:", hudCoins: "Coins:", controls: "⬅️ ➡️ Move | <b>SPACE</b> Jump | ⬇️ Slide (Hold) | ⬆️ Throw | <b>ESC</b> Pause | <b>G</b> GodMode", shopTitle: "Tavern / Store", shopCoins: "Coins:", skinsTitle: "THE BASTERDS", powerupsTitle: "PERMANENT UPGRADES", buy: "Buy", equip: "Equip", equipped: "Equipped", back: "BACK", pause: "PAUSED", pauseDesc: "Press ESC to resume", resume: "RESUME", quit: "QUIT RUN", crash: "CRASHED!", finalScore: "Final Score:", finalCoins: "Coins:", retry: "RETRY", menu: "MENU", mTitle: "Missions", mDesc: "Level up by completing tasks!", claim: "Claim", completed: "Completed", m1: "Collect Coins", m2: "Perform Slides", m3: "Play Games", shieldName: "Shield 🛡️", magnetName: "Magnet 🧲", owned: "Owned:", upgMagnet: "Magnet Lvl", upgJetpack: "Jetpack Lvl", upgSonic: "Sonic Lvl", upgWeapon: "Weapon Lvl", max: "MAX", consumablesTitle: "SUPPLIES", dodge: "CLOSE CALL!", speedUp: "SPEED UP!", bossWarning: "BOSS WARNING!", bossDefeated: "BOSS DEFEATED!", stageCleared: "STAGE CLEARED!", sonicBoom: "SONIC BOOM!", godModeOn: "GOD MODE ON", godModeOff: "GOD MODE OFF", ready: "READY", descBase: "Throws Caps. No bonus.", descPinzu: "Super Jump + Fire", descNiddu: "Coins x2 + Bones" }
@@ -252,16 +252,41 @@
     unlockedSkins = unlockedSkins.filter(id => skinData[id]); if(unlockedSkins.length === 0) unlockedSkins = ['default'];
     let currentSkin = localStorage.getItem('runnerEquipped') || 'default'; if(!skinData[currentSkin]) currentSkin = 'default';
     
-    function saveStats() { localStorage.setItem('runnerStats', JSON.stringify(stats)); }
-    function updateBankDisplay() { document.getElementById("bankCoins").innerText=totalBankCoins; document.getElementById("shopCoins").innerText=totalBankCoins; document.getElementById("highScoreDisplay").innerText=highScore; }
-    function switchScreen(screenId) { document.querySelectorAll('.screen').forEach(el=>el.classList.add('hidden')); if(screenId!=="pauseMenu")document.getElementById("gameUI").classList.add("hidden"); if(screenId)document.getElementById(screenId).classList.remove("hidden"); }
+    // SISTEMA DI SALVATAGGIO E SINCRONIZZAZIONE
+    function saveStats() { 
+        localStorage.setItem('runnerStats', JSON.stringify(stats)); 
+        localStorage.setItem("runnerBankCoins", totalBankCoins); 
+        localStorage.setItem("runnerMagnets", inventory.magnet);
+        localStorage.setItem("runnerShields", inventory.shield);
+        localStorage.setItem("runnerUpgMagnet", upgLevels.magnet);
+        localStorage.setItem("runnerUpgJetpack", upgLevels.jetpack);
+        localStorage.setItem("runnerUpgSonic", upgLevels.sonic);
+        localStorage.setItem("runnerUpgWeapon", upgLevels.weapon);
+    }
+    
+    function updateBankDisplay() { 
+        document.getElementById("bankCoins").innerText=totalBankCoins; 
+        document.getElementById("shopCoins").innerText=totalBankCoins; 
+        document.getElementById("highScoreDisplay").innerText=highScore; 
+    }
+    
+    function switchScreen(screenId) { 
+        document.querySelectorAll('.screen').forEach(el=>el.classList.add('hidden')); 
+        if(screenId!=="pauseMenu") document.getElementById("gameUI").classList.add("hidden"); 
+        if(screenId) document.getElementById(screenId).classList.remove("hidden"); 
+    }
+    
     function openGuide() { gameState="GUIDE"; switchScreen("guideMenu"); }
     function goToMenu() { gameState = "MENU"; clearInterval(bgmInterval); updateBankDisplay(); switchScreen("mainMenu"); document.getElementById("comboContainer").style.display="none"; }
-    function openShop() { gameState="SHOP"; switchScreen("shopMenu"); updateBankDisplay(); renderShop(); }
+    function openShop() { gameState="SHOP"; updateBankDisplay(); switchScreen("shopMenu"); renderShop(); }
     
     function renderShop() {
-        updateBankDisplay(); // SYNC SOLDI IN TEMPO REALE!
-        const t = i18n[lang]; document.getElementById("btnBuyShield").disabled = totalBankCoins < 50; document.getElementById("btnBuyMagnet").disabled = totalBankCoins < 100; document.getElementById("magnetInv").innerText = inventory.magnet; document.getElementById("shieldInv").innerText = inventory.shield;
+        updateBankDisplay(); // Aggiornamento istantaneo UI Bancomat
+        const t = i18n[lang]; 
+        document.getElementById("btnBuyShield").disabled = totalBankCoins < 50; 
+        document.getElementById("btnBuyMagnet").disabled = totalBankCoins < 100; 
+        document.getElementById("magnetInv").innerText = inventory.magnet; 
+        document.getElementById("shieldInv").innerText = inventory.shield;
         
         const types = ['magnet', 'jetpack', 'sonic', 'weapon'];
         const ids = ['Mag', 'Jet', 'Son', 'Wep'];
@@ -283,16 +308,29 @@
         });
     }
     
-    function buySkin(id) { if(totalBankCoins>=skinData[id].cost && !unlockedSkins.includes(id)){ totalBankCoins-=skinData[id].cost; localStorage.setItem("runnerBankCoins", totalBankCoins); unlockedSkins.push(id); localStorage.setItem('runnerSkins', JSON.stringify(unlockedSkins)); equipSkin(id); renderShop(); } }
-    function buyItem(item, price) { if(totalBankCoins>=price){ totalBankCoins-=price; localStorage.setItem("runnerBankCoins", totalBankCoins); if(item==='magnet'){inventory.magnet++;localStorage.setItem("runnerMagnets",inventory.magnet);} if(item==='shield'){inventory.shield++;localStorage.setItem("runnerShields",inventory.shield);} renderShop(); } }
+    function buySkin(id) { 
+        if(totalBankCoins>=skinData[id].cost && !unlockedSkins.includes(id)){ 
+            totalBankCoins-=skinData[id].cost; 
+            unlockedSkins.push(id); localStorage.setItem('runnerSkins', JSON.stringify(unlockedSkins)); 
+            saveStats(); equipSkin(id); renderShop(); 
+        } 
+    }
+    
+    function buyItem(item, price) { 
+        if(totalBankCoins>=price){ 
+            totalBankCoins-=price; 
+            if(item==='magnet'){ inventory.magnet++; } 
+            if(item==='shield'){ inventory.shield++; } 
+            saveStats(); renderShop(); 
+        } 
+    }
     
     function upgradeBoost(type) { 
         let cost = upgLevels[type] * 200; 
         if (totalBankCoins >= cost && upgLevels[type] < 5) { 
-            totalBankCoins -= cost; upgLevels[type]++; 
-            localStorage.setItem("runnerBankCoins", totalBankCoins); 
-            localStorage.setItem("runnerUpg" + type.charAt(0).toUpperCase() + type.slice(1), upgLevels[type]); 
-            renderShop(); 
+            totalBankCoins -= cost; 
+            upgLevels[type]++; 
+            saveStats(); renderShop(); 
         } 
     }
     
@@ -307,7 +345,15 @@
             listHTML += `<div class="mission-item"><div><h3 style="margin:0; color:#00ffcc">${t[m.id]}</h3></div><div>${btnHTML}</div></div>`; 
         }); document.getElementById("missionsList").innerHTML = listHTML;
     }
-    function claimReward(idx) { let m = missions[idx]; let cTier = m.tiers[m.level]; if(stats[m.type]>=cTier.g){ totalBankCoins+=cTier.r; m.level++; localStorage.setItem("runnerBankCoins", totalBankCoins); localStorage.setItem('runnerMissionsV2', JSON.stringify(missions)); sfxReward(); openMissions(); } }
+    
+    function claimReward(idx) { 
+        let m = missions[idx]; let cTier = m.tiers[m.level]; 
+        if(stats[m.type]>=cTier.g){ 
+            totalBankCoins+=cTier.r; m.level++; 
+            localStorage.setItem('runnerMissionsV2', JSON.stringify(missions)); 
+            saveStats(); sfxReward(); openMissions(); 
+        } 
+    }
 
     let combo = 0; let comboTimer = 0; const MAX_COMBO_TIME = 150; let comboMult = 1;
     function addCombo() {
@@ -323,7 +369,7 @@
     function updateCombo() { if(comboTimer > 0) { comboTimer--; document.getElementById("comboBar").style.width = (comboTimer/MAX_COMBO_TIME)*100 + "%"; if(comboTimer <= 0) { combo = 0; comboMult = 1; document.getElementById("comboContainer").style.display = "none"; } } }
     function showFloatingText(txt) { let el = document.createElement("div"); el.className = "floating-text"; el.innerText = txt; document.body.appendChild(el); setTimeout(()=> el.remove(), 1200); }
 
-    // --- SETUP SCENA THREE.JS ---
+    // --- SETUP SCENA THREE.JS E CACHE MATERIALI (PERFORMANCE HD ASSOLUTA) ---
     const scene = new THREE.Scene(); const tColBg=new THREE.Color(); const tColGr=new THREE.Color(); const tColTr=new THREE.Color(); const tColRail=new THREE.Color();
     scene.background = new THREE.Color(0x87CEEB); scene.fog = new THREE.Fog(0x87CEEB, 20, 100);
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 200); 
@@ -337,8 +383,6 @@
     document.body.appendChild(renderer.domElement);
     
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.8); scene.add(hemiLight);
-    
-    // OMBRE HD E FIXATE
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.9); 
     dirLight.position.set(10, 30, 0); 
     dirLight.target.position.set(0, 0, -30); 
@@ -348,8 +392,8 @@
     dirLight.shadow.camera.near = 0.5; dirLight.shadow.camera.far = 100;
     scene.add(dirLight); scene.add(dirLight.target);
     
-    // CACHE MATERIALI GLOBALI
-    const coinGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.1, 8);
+    // CACHE MATERIALI GLOBALI PER PREVENIRE MEMORY LEAKS
+    const coinGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.1, 16);
     const coinMat = new THREE.MeshPhongMaterial({color:0xffd700, specular:0xffffff, shininess:100, emissive:0x442200}); 
     const pedGeo = new THREE.CylinderGeometry(0.8, 0.2, 0.8, 8);
     const pedMat = new THREE.MeshLambertMaterial({color:0xffffff, transparent:true, opacity:0.5});
@@ -487,7 +531,6 @@
     function createVoxelLimb(group, isArm, type, side) {
         while(group.children.length > 0) group.remove(group.children[0]);
         let mat = new THREE.MeshLambertMaterial({color: isArm ? skinData[type].skin : 0x222222});
-        
         let w = 0.3, h = 0.8, d = 0.3;
         if(type === 'pinzu' && isArm) { h = 0.4; w = 0.2; d = 0.2; }
         if(type === 'pinzu' && !isArm) { w = 0.4; d = 0.4; }
@@ -593,7 +636,7 @@
     function triggerGameOver() {
         gameState="GAMEOVER"; clearInterval(bgmInterval); sfxCrash(); spawnParticles(playerGroup.position.x, playerGroup.position.y+1, playerGroup.position.z, 0xff3366, 50); cameraShake = 0.5; document.getElementById("comboContainer").style.display="none";
         if(windGain) windGain.gain.value = 0; playerGroup.visible=true;
-        totalBankCoins+=coinsCollected; localStorage.setItem("runnerBankCoins", totalBankCoins); 
+        totalBankCoins+=coinsCollected; saveStats();
         let finalScore=Math.floor(score); if(finalScore>highScore){ highScore=finalScore; localStorage.setItem("runnerHighScore", highScore); }
         document.getElementById("finalScore").innerText=finalScore; document.getElementById("finalCoins").innerText=coinsCollected; switchScreen("gameOverMenu");
     }
@@ -774,13 +817,14 @@
 
         skyClouds.forEach(c => { c.position.x += 0.02; if(c.position.x > 40) c.position.x = -40; });
         
+        // FISICA CAMBIO CORSIA - LA VERA SOLUZIONE (SINUSOIDALE E SICURA)
+        let laneWidth = 3.0;
         let laneDiff = lanes[currentLane] - playerGroup.position.x;
         playerGroup.position.x += laneDiff * 0.2;
-        
-        let maxDist = 3.0; 
         let distToTarget = Math.abs(laneDiff);
-        let hopDist = Math.min(distToTarget, maxDist); 
-        let visualHop = hopDist * (maxDist - hopDist) * 0.25; 
+        
+        let progress = Math.max(0, Math.min(1, 1.0 - (distToTarget / laneWidth)));
+        let visualHop = Math.sin(progress * Math.PI) * 0.8; // Balzo morbido e matematicamente perfetto
         
         if(jetpackTimer>0){ 
             playerY+=(4-playerY)*0.1; jetpackTimer--; 
@@ -796,6 +840,9 @@
         else if(isJumping){ 
             playerY+=jumpVelocity; jumpVelocity+=pGravity; 
             
+            legL.rotation.x = -0.5; legR.rotation.x = 0.5; 
+            armL.rotation.x = 2.5; armR.rotation.x = 2.5; 
+
             let maxJ = 0.45; 
             let jumpProgress = (maxJ - jumpVelocity) / (maxJ * 2); 
             jumpProgress = Math.max(0, Math.min(1, jumpProgress)); 
@@ -834,9 +881,10 @@
             legL.rotation.x = 1.5; legR.rotation.x = 1.5; 
             armL.rotation.x = -1.5; armR.rotation.x = -1.5;
         } else if (!isJumping && jetpackTimer <= 0) {
+            // Effetto Inclinazione
             if (distToTarget > 0.05) {
                 let dir = laneDiff > 0 ? -1 : 1; 
-                playerGroup.rotation.set(0, 0, ((maxDist - hopDist) / maxDist) * 0.5 * dir); 
+                playerGroup.rotation.set(0, 0, progress * 0.5 * dir); 
             } else {
                 playerGroup.rotation.set(0, 0, 0);
             }
@@ -992,7 +1040,7 @@
 
         for(let i=0;i<trackBoosts.length;i++){
             let b=trackBoosts[i]; 
-            if(b.userData && b.userData.isSprite) { b.position.z+=currentSpeed; } else { b.children[0].rotation.y+=0.05; b.position.z+=currentSpeed; } // Solo il piedistallo ruota, non l'emoji!
+            if(b.userData && b.userData.isSprite) { b.position.z+=currentSpeed; } else { b.children[0].rotation.y+=0.05; b.position.z+=currentSpeed; } 
             let dZ=Math.abs(playerGroup.position.z-b.position.z); let dX=Math.abs(playerGroup.position.x-b.position.x); 
             let dY=Math.abs(playerY+1-b.position.y); 
             
