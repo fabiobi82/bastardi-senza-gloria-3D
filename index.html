@@ -283,15 +283,37 @@
         });
     }
     
-    function buySkin(id) { if(totalBankCoins>=skinData[id].cost && !unlockedSkins.includes(id)){ totalBankCoins-=skinData[id].cost; localStorage.setItem("runnerBankCoins", totalBankCoins); unlockedSkins.push(id); localStorage.setItem('runnerSkins', JSON.stringify(unlockedSkins)); equipSkin(id); } }
-    function buyItem(item, price) { if(totalBankCoins>=price){ totalBankCoins-=price; localStorage.setItem("runnerBankCoins", totalBankCoins); if(item==='magnet'){inventory.magnet++;localStorage.setItem("runnerMagnets",inventory.magnet);} if(item==='shield'){inventory.shield++;localStorage.setItem("runnerShields",inventory.shield);} renderShop(); } }
+    function buySkin(id) { 
+        if(totalBankCoins>=skinData[id].cost && !unlockedSkins.includes(id)){ 
+            totalBankCoins-=skinData[id].cost; 
+            localStorage.setItem("runnerBankCoins", totalBankCoins); 
+            unlockedSkins.push(id); 
+            localStorage.setItem('runnerSkins', JSON.stringify(unlockedSkins)); 
+            equipSkin(id); 
+            updateBankDisplay();
+            renderShop();
+        } 
+    }
+    
+    function buyItem(item, price) { 
+        if(totalBankCoins>=price){ 
+            totalBankCoins-=price; 
+            localStorage.setItem("runnerBankCoins", totalBankCoins); 
+            if(item==='magnet'){inventory.magnet++;localStorage.setItem("runnerMagnets",inventory.magnet);} 
+            if(item==='shield'){inventory.shield++;localStorage.setItem("runnerShields",inventory.shield);} 
+            updateBankDisplay();
+            renderShop(); 
+        } 
+    }
     
     function upgradeBoost(type) { 
         let cost = upgLevels[type] * 200; 
         if (totalBankCoins >= cost && upgLevels[type] < 5) { 
-            totalBankCoins -= cost; upgLevels[type]++; 
+            totalBankCoins -= cost; 
+            upgLevels[type]++; 
             localStorage.setItem("runnerBankCoins", totalBankCoins); 
             localStorage.setItem("runnerUpg" + type.charAt(0).toUpperCase() + type.slice(1), upgLevels[type]); 
+            updateBankDisplay();
             renderShop(); 
         } 
     }
@@ -762,12 +784,10 @@
             playerY+=(4-playerY)*0.1; jetpackTimer--; 
             if(jetpackTimer<=0) { isJumping=true; jumpVelocity=0; invincibleTimer=120; cameraShake=0.2; } 
             
-            // Posa volo fissa
             playerGroup.rotation.set(-0.4, 0, 0);
-            legL.rotation.x = -0.5; legR.rotation.x = -0.5;
-            armL.rotation.x = 3.14; armR.rotation.x = 3.14; // Braccia indietro
+            legL.rotation.x = -0.2; legR.rotation.x = 0.2;
+            armL.rotation.x = -1.5; armR.rotation.x = -1.5; 
             
-            // Fiamme Jetpack!
             if(Math.random()<0.6) spawnParticles(playerGroup.position.x - 0.2, playerY + 0.5, playerGroup.position.z, 0xff5500, 1);
             if(Math.random()<0.6) spawnParticles(playerGroup.position.x + 0.2, playerY + 0.5, playerGroup.position.z, 0xff5500, 1);
         }
@@ -969,7 +989,10 @@
 
         for(let i=0;i<trackBoosts.length;i++){
             let b=trackBoosts[i]; 
-            if(b.userData && b.userData.isSprite) { b.position.z+=currentSpeed; } else { b.rotation.y+=0.05; b.rotation.x+=0.05; b.position.z+=currentSpeed; }
+            b.position.z += currentSpeed;
+            if(b.boostType !== 'oil' && b.children.length > 0) { 
+                b.children[0].rotation.y += 0.05; 
+            }
             let dZ=Math.abs(playerGroup.position.z-b.position.z); let dX=Math.abs(playerGroup.position.x-b.position.x); 
             let dY=Math.abs(playerY+1-b.position.y); 
             
