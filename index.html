@@ -262,7 +262,7 @@
         if(isMuted||(audioCtx.state==='suspended'&&gameState!=="PAUSED")) return; 
         let notes = [150, 150, 220, 180]; let type = 'square';
         if(currentBiomeIndex === 1) { notes = [220, 261, 329, 392]; type = 'sawtooth'; } 
-        else if(currentBiomeIndex === 2) { notes = [110, 110, 98, 130]; type = 'triangle'; } 
+        else if(currentBiomeIndex === 2) { notes = [330, 330, 294, 392]; type = 'square'; } 
         playTone(notes[bgmStep % notes.length], type, 0.15, 0.02); bgmStep++; 
     }
 
