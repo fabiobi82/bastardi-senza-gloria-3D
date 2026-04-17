@@ -102,7 +102,12 @@
 
             <h3>MALUS (I CATTIVI)</h3>
             <div class="item-row"><span class="item-icon">🛢️</span> <p><b>MACCHIA D'OLIO:</b> Inverte temporaneamente i tuoi comandi.</p></div>
-            <div class="item-row"><span class="item-icon">💣</span> <p><b>BOMBE DEL BOSS:</b> Evitale a tutti i costi.</p></div>
+            
+            <h3>I BOSS</h3>
+            <p style="font-size: 16px; color: #ccc; margin-bottom: 5px;">I boss ti inseguono lanciando malus specifici. Schivali o abbattili per 100 monete!</p>
+            <div class="item-row"><span class="item-icon">⛓️</span> <p><b>POLIZIA (Palla al Piede):</b> Ti impedisce di saltare per 3 secondi.</p></div>
+            <div class="item-row"><span class="item-icon">⚡</span> <p><b>DRONE (Raggio EMP):</b> Ti paralizza, impedendo di spostarti di lato.</p></div>
+            <div class="item-row"><span class="item-icon">☄️</span> <p><b>DRAGO (Roccia Magmatica):</b> Ti brucia 50 monete d'oro istantaneamente.</p></div>
 
             <button class="btn" style="width: 100%; margin-top: 20px;" onclick="goToMenu()">HO CAPITO</button>
         </div>
@@ -283,37 +288,15 @@
         });
     }
     
-    function buySkin(id) { 
-        if(totalBankCoins>=skinData[id].cost && !unlockedSkins.includes(id)){ 
-            totalBankCoins-=skinData[id].cost; 
-            localStorage.setItem("runnerBankCoins", totalBankCoins); 
-            unlockedSkins.push(id); 
-            localStorage.setItem('runnerSkins', JSON.stringify(unlockedSkins)); 
-            equipSkin(id); 
-            updateBankDisplay();
-            renderShop();
-        } 
-    }
-    
-    function buyItem(item, price) { 
-        if(totalBankCoins>=price){ 
-            totalBankCoins-=price; 
-            localStorage.setItem("runnerBankCoins", totalBankCoins); 
-            if(item==='magnet'){inventory.magnet++;localStorage.setItem("runnerMagnets",inventory.magnet);} 
-            if(item==='shield'){inventory.shield++;localStorage.setItem("runnerShields",inventory.shield);} 
-            updateBankDisplay();
-            renderShop(); 
-        } 
-    }
+    function buySkin(id) { if(totalBankCoins>=skinData[id].cost && !unlockedSkins.includes(id)){ totalBankCoins-=skinData[id].cost; localStorage.setItem("runnerBankCoins", totalBankCoins); unlockedSkins.push(id); localStorage.setItem('runnerSkins', JSON.stringify(unlockedSkins)); equipSkin(id); } }
+    function buyItem(item, price) { if(totalBankCoins>=price){ totalBankCoins-=price; localStorage.setItem("runnerBankCoins", totalBankCoins); if(item==='magnet'){inventory.magnet++;localStorage.setItem("runnerMagnets",inventory.magnet);} if(item==='shield'){inventory.shield++;localStorage.setItem("runnerShields",inventory.shield);} renderShop(); } }
     
     function upgradeBoost(type) { 
         let cost = upgLevels[type] * 200; 
         if (totalBankCoins >= cost && upgLevels[type] < 5) { 
-            totalBankCoins -= cost; 
-            upgLevels[type]++; 
+            totalBankCoins -= cost; upgLevels[type]++; 
             localStorage.setItem("runnerBankCoins", totalBankCoins); 
             localStorage.setItem("runnerUpg" + type.charAt(0).toUpperCase() + type.slice(1), upgLevels[type]); 
-            updateBankDisplay();
             renderShop(); 
         } 
     }
@@ -526,7 +509,7 @@
     let gameState = "MENU"; let score=0; let coinsCollected=0; let multiplier=1; let gameSpeed=0.4; let sonicTimer = 0;
     let currentLane=1; let playerY=0; let isJumping=false; let jumpVelocity=0; let pGravity=-0.025; let coinMult=1;
     let isDucking=false; let duckTimer=0; let magnetActive=false; let magnetTimer=0; let shieldActive=false;
-    let jetpackTimer=0; let oilTimer=0; let invincibleTimer=0; let weaponCooldown=0; let hasWeapon=false;
+    let jetpackTimer=0; let oilTimer=0; let chainTimer=0; let empTimer=0; let invincibleTimer=0; let weaponCooldown=0; let hasWeapon=false;
     let runTime = 0; 
     
     let bossActive=false; let bossTimer=0; let bossHP=5; let currentBiomeIndex=0; let bossCooldown=1000; let nextBossScore=1000;
@@ -539,10 +522,12 @@
         
         let move = 0; if(e.code==="ArrowLeft") move = -1; if(e.code==="ArrowRight") move = 1; if(oilTimer > 0) move *= -1; 
         
-        if(move === -1 && currentLane > 0) { currentLane--; }
-        if(move === 1 && currentLane < 2) { currentLane++; }
+        if (empTimer <= 0) {
+            if(move === -1 && currentLane > 0) { currentLane--; }
+            if(move === 1 && currentLane < 2) { currentLane++; }
+        }
         
-        if(e.code==="Space" && !isJumping && !isDucking && jetpackTimer<=0){ isJumping=true; jumpVelocity=0.45; sfxJump(); }
+        if(e.code==="Space" && !isJumping && !isDucking && jetpackTimer<=0 && chainTimer<=0){ isJumping=true; jumpVelocity=0.45; sfxJump(); }
         
         // Cooldown ridotto per livello arma!
         let wepCoolBase = 20 - (upgLevels.weapon - 1) * 3;
@@ -558,6 +543,39 @@
         }
     });
 
+    let touchStartX = 0; let touchStartY = 0;
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY;
+    }, {passive: false});
+
+    document.addEventListener('touchend', e => {
+        if(gameState!=="PLAYING") return;
+        let dx = e.changedTouches[0].screenX - touchStartX; let dy = e.changedTouches[0].screenY - touchStartY;
+        if(Math.abs(dx) < 30 && Math.abs(dy) < 30) {
+            let wepCoolBase = 20 - (upgLevels.weapon - 1) * 3;
+            if(hasWeapon && weaponCooldown <= 0) { fireWeapon(); weaponCooldown = Math.max(5, wepCoolBase); cameraShake = 0.1; }
+            return;
+        }
+        if(Math.abs(dx) > Math.abs(dy)) {
+            if (empTimer <= 0) {
+                let move = dx > 0 ? 1 : -1; if(oilTimer > 0) move *= -1; 
+                if(move === -1 && currentLane > 0) currentLane--;
+                if(move === 1 && currentLane < 2) currentLane++;
+            }
+        } else {
+            if(dy < 0) {
+                if(!isJumping && !isDucking && jetpackTimer<=0 && chainTimer<=0){ isJumping=true; jumpVelocity=0.45; sfxJump(); }
+            } else {
+                if (jetpackTimer > 0) { jetpackTimer = 0; isJumping = true; jumpVelocity = 0; invincibleTimer = 120; cameraShake = 0.2; } 
+                else {
+                    if (isJumping) jumpVelocity = -0.8; 
+                    if (!isDucking) { sfxDuck(); stats.totalSlides++; saveStats(); spawnParticles(playerGroup.position.x, 0.1, playerGroup.position.z, 0xffcc00, 10); if(isJumping) cameraShake=0.2; }
+                    isDucking=true; duckTimer = 40; 
+                }
+            }
+        }
+    }, {passive: false});
+
     function pauseGame() { gameState="PAUSED"; document.getElementById("pauseMenu").classList.remove("hidden"); if(audioCtx.state==='running')audioCtx.suspend(); }
     function resumeGame() { gameState="PLAYING"; document.getElementById("pauseMenu").classList.add("hidden"); if(audioCtx.state==='suspended'&&!isMuted)audioCtx.resume(); }
 
@@ -568,7 +586,7 @@
         
         playerGroup.rotation.set(0, 0, 0); 
         cameraShake=0; currentBiomeIndex=0; sonicTimer = 0; nextBossScore=1000; runTime=0;
-        bossActive=false; bossGroup.position.z=40; jetpackTimer=0; oilTimer=0; invincibleTimer=0; weaponCooldown=0; hasWeapon=false; playerGroup.visible=true; baseFov=60; camera.fov=baseFov; camera.updateProjectionMatrix();
+        bossActive=false; bossGroup.position.z=40; jetpackTimer=0; oilTimer=0; chainTimer=0; empTimer=0; invincibleTimer=0; weaponCooldown=0; hasWeapon=false; playerGroup.visible=true; baseFov=60; camera.fov=baseFov; camera.updateProjectionMatrix();
         bossCooldown=1000;
         stats.gamesPlayed++; saveStats(); 
         pGravity = currentSkin === 'pinzu' ? -0.015 : -0.025;
@@ -616,15 +634,15 @@
     function spawnBossHazard(bx, bz, type) {
         let h = new THREE.Group();
         if(type === 0) { 
-            let bomb = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), new THREE.MeshLambertMaterial({color:0x222222})); bomb.position.y = 0.4; bomb.castShadow=true;
-            let fuse = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.3), new THREE.MeshBasicMaterial({color:0xffaa00})); fuse.position.y = 0.9;
-            h.add(bomb); h.add(fuse); h.position.set(bx, 0, bz); h.obsType = "low";
+            let ball = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), new THREE.MeshLambertMaterial({color:0x222222})); ball.position.y = 0.5; ball.castShadow=true;
+            let chain = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.5, 8), new THREE.MeshLambertMaterial({color:0x888888})); chain.position.y = 1.0;
+            h.add(ball); h.add(chain); h.position.set(bx, 0, bz); h.obsType = "boss_chain";
         } else if (type === 1) { 
-            let beam = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 10, 8), new THREE.MeshBasicMaterial({color:0xff0000, transparent:true, opacity:0.8}));
-            beam.position.y = 5; h.add(beam); h.position.set(bx, 0, bz); h.obsType = "wall";
+            let beam = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 10, 8), new THREE.MeshBasicMaterial({color:0x00ffff, transparent:true, opacity:0.8}));
+            beam.position.y = 5; h.add(beam); h.position.set(bx, 0, bz); h.obsType = "boss_emp";
         } else { 
-            let rock = new THREE.Mesh(new THREE.DodecahedronGeometry(1.2), new THREE.MeshLambertMaterial({color:0x331100, emissive:0x220000}));
-            rock.position.y = 1.2; rock.castShadow=true; h.add(rock); h.position.set(bx, 0, bz); h.obsType = "wall";
+            let rock = new THREE.Mesh(new THREE.DodecahedronGeometry(1.2), new THREE.MeshLambertMaterial({color:0xff3300, emissive:0xaa0000}));
+            rock.position.y = 1.2; rock.castShadow=true; h.add(rock); h.position.set(bx, 0, bz); h.obsType = "boss_fire";
         }
         scene.add(h); obstacles.push(h); h.passed = false;
     }
@@ -731,6 +749,8 @@
         if(magnetActive || magnetTimer>0) s+="<span class='cyan'>🧲 " + Math.ceil(magnetTimer/60) + "s</span> "; 
         if(jetpackTimer>0) s+="<span class='magenta'>🚀 " + Math.ceil(jetpackTimer/60) + "s</span> "; 
         if(oilTimer>0) s+="<span class='red'>⚠️ " + Math.ceil(oilTimer/60) + "s</span> "; 
+        if(chainTimer>0) s+="<span class='red'>⛓️ " + Math.ceil(chainTimer/60) + "s</span> "; 
+        if(empTimer>0) s+="<span class='cyan'>⚡ " + Math.ceil(empTimer/60) + "s</span> "; 
         if(sonicTimer>0) s+="<span class='white'>⚡ " + Math.ceil(sonicTimer/60) + "s</span> "; 
         if(hasWeapon) s+="<span class='red'>⚔️ " + (lang==='it'?"PRONTO (⬆️)":"READY (⬆️)") + "</span> "; 
         document.getElementById("buffDisplay").innerHTML=s; 
@@ -784,10 +804,12 @@
             playerY+=(4-playerY)*0.1; jetpackTimer--; 
             if(jetpackTimer<=0) { isJumping=true; jumpVelocity=0; invincibleTimer=120; cameraShake=0.2; } 
             
+            // Posa volo fissa
             playerGroup.rotation.set(-0.4, 0, 0);
-            legL.rotation.x = -0.2; legR.rotation.x = 0.2;
-            armL.rotation.x = -1.5; armR.rotation.x = -1.5; 
+            legL.rotation.x = -0.5; legR.rotation.x = -0.5;
+            armL.rotation.x = 3.14; armR.rotation.x = 3.14; // Braccia indietro
             
+            // Fiamme Jetpack!
             if(Math.random()<0.6) spawnParticles(playerGroup.position.x - 0.2, playerY + 0.5, playerGroup.position.z, 0xff5500, 1);
             if(Math.random()<0.6) spawnParticles(playerGroup.position.x + 0.2, playerY + 0.5, playerGroup.position.z, 0xff5500, 1);
         }
@@ -860,6 +882,8 @@
         if(shieldActive)shieldMesh.rotation.y+=0.05;
         if(magnetActive){ magnetTimer--; if(magnetTimer<=0) magnetActive=false; }
         if(oilTimer>0) oilTimer--;
+        if(chainTimer>0) chainTimer--;
+        if(empTimer>0) empTimer--;
         if(sonicTimer>0) { sonicTimer--; camera.fov += (90 - camera.fov)*0.1; camera.updateProjectionMatrix(); if(sonicTimer<=0) { invincibleTimer=60; } }
         else { camera.fov += (baseFov - camera.fov)*0.1; camera.updateProjectionMatrix(); }
         
@@ -975,6 +999,17 @@
             if(sonicTimer>0 && inHitbox) { spawnParticles(o.position.x, o.position.y+1, o.position.z, 0x00ffff, 20); sfxExplosion(); scene.remove(o); obstacles.splice(i,1); i--; addCombo(); cameraShake=0.3; continue; }
 
             if(inHitbox && invincibleTimer<=0 && !window.godMode){
+                
+                if(o.obsType==="boss_chain" && playerY<1.2 && jetpackTimer<=0) {
+                    chainTimer=180; sfxCrash(); spawnParticles(o.position.x,o.position.y+1,o.position.z,0x888888,20); scene.remove(o); obstacles.splice(i,1); i--; updateBuffUI(); continue;
+                }
+                if(o.obsType==="boss_emp" && playerY<2.8 && jetpackTimer<=0) {
+                    empTimer=180; sfxCrash(); spawnParticles(o.position.x,o.position.y+1,o.position.z,0x00ffff,20); scene.remove(o); obstacles.splice(i,1); i--; updateBuffUI(); continue;
+                }
+                if(o.obsType==="boss_fire" && playerY<2.8 && jetpackTimer<=0) {
+                    coinsCollected = Math.max(0, coinsCollected - 50); document.getElementById("coins").innerText = coinsCollected; sfxCrash(); spawnParticles(o.position.x,o.position.y+1,o.position.z,0xff3300,30); scene.remove(o); obstacles.splice(i,1); i--; cameraShake=0.4; continue;
+                }
+
                 let hit=false; 
                 if(o.obsType==="low" && playerY<1.2 && jetpackTimer<=0) hit=true; 
                 if((o.obsType==="wall"||o.obsType==="movingTrain"||o.obsType==="crossing") && playerY<2.8 && jetpackTimer<=0) hit=true; 
@@ -989,10 +1024,7 @@
 
         for(let i=0;i<trackBoosts.length;i++){
             let b=trackBoosts[i]; 
-            b.position.z += currentSpeed;
-            if(b.boostType !== 'oil' && b.children.length > 0) { 
-                b.children[0].rotation.y += 0.05; 
-            }
+            if(b.userData && b.userData.isSprite) { b.position.z+=currentSpeed; } else { b.rotation.y+=0.05; b.rotation.x+=0.05; b.position.z+=currentSpeed; }
             let dZ=Math.abs(playerGroup.position.z-b.position.z); let dX=Math.abs(playerGroup.position.x-b.position.x); 
             let dY=Math.abs(playerY+1-b.position.y); 
             
