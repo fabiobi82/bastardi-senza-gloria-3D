@@ -49,7 +49,8 @@
         .shop-row { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; max-width: 1000px;}
         .shop-item { background: #222; padding: 15px; border-radius: 10px; text-align: center; width: 200px; border: 2px solid #444; }
         .shop-section-title { width: 100%; text-align: center; color: #aaa; font-size: 20px; margin-bottom: 10px; text-transform: uppercase; border-bottom: 1px solid #444; padding-bottom: 5px; margin-top: 20px; }
-        #shopMenu, #missionsMenu { justify-content: flex-start; padding-top: 60px; padding-bottom: 60px; }
+        #shopMenu, #missionsMenu { justify-content: flex-start; padding-top: 60px; }
+        #shopMenu::after, #missionsMenu::after { content: ''; display: block; min-height: 120px; flex-shrink: 0; }
         
         .mission-item { background: #222; padding: 15px 30px; border-radius: 10px; border: 2px solid #444; margin: 10px; display: flex; justify-content: space-between; align-items: center; width: 600px; }
         .controls-info { margin-top: 20px; color: #aaa; text-align: center; font-size: 18px; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; }
@@ -164,14 +165,14 @@
             <div class="shop-item" style="border-color: #ffffff;"><h3 id="txUpgSonicTitle" style="color:white;">Lvl Sonic</h3><p style="color:white;">Lvl <span id="lvlSonDisp">1</span>/5</p><button id="btnUpgSon" class="btn btn-buy" onclick="upgradeBoost('sonic')">Up (200)</button></div>
             <div class="shop-item" style="border-color: #ff3333;"><h3 id="txUpgWeaponTitle" class="red">Lvl Arma</h3><p class="red">Lvl <span id="lvlWepDisp">1</span>/5</p><button id="btnUpgWep" class="btn btn-buy" onclick="upgradeBoost('weapon')">Up (200)</button></div>
         </div>
-        <button id="btnBackShop" class="btn" onclick="goToMenu()">INDIETRO</button>
+        <button id="btnBackShop" class="btn" onclick="goToMenu()" style="margin-top: 30px; margin-bottom: 50px; width: 250px;">INDIETRO</button>
     </div>
 
     <div id="missionsMenu" class="screen hidden">
         <h2 id="txMissionTitle" class="magenta">Missioni</h2>
         <p id="txMissionDesc" style="margin-bottom: 20px;">Sali di livello completando le sfide!</p>
         <div id="missionsList"></div>
-        <button id="btnBackMissions" class="btn" onclick="goToMenu()" style="margin-top: 20px;">INDIETRO</button>
+        <button id="btnBackMissions" class="btn" onclick="goToMenu()" style="margin-top: 30px; margin-bottom: 50px; width: 250px;">INDIETRO</button>
     </div>
 
     <div id="pauseMenu" class="screen hidden" style="background: rgba(0, 0, 0, 0.9);">
@@ -550,7 +551,11 @@
 
     document.addEventListener("keydown", (e) => {
         if(e.code === "KeyG" && gameState==="PLAYING") { window.godMode = !window.godMode; showFloatingText(window.godMode ? "GOD MODE ON" : "GOD MODE OFF"); }
-        if(e.code==="Escape"){ if(gameState==="PLAYING")pauseGame(); else if(gameState==="PAUSED")resumeGame(); }
+        if(e.code==="Escape"){ 
+            if(gameState==="PLAYING") pauseGame(); 
+            else if(gameState==="PAUSED") resumeGame();
+            else if(gameState==="SHOP" || gameState==="MISSIONS" || gameState==="GUIDE") goToMenu();
+        }
         if(gameState!=="PLAYING") return;
         
         let move = 0; if(e.code==="ArrowLeft") move = -1; if(e.code==="ArrowRight") move = 1; if(oilTimer > 0) move *= -1; 
