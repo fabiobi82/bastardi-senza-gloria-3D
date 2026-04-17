@@ -41,7 +41,7 @@
         .btn-buy:disabled { background-color: #555; color: #888; box-shadow: none; transform: none; cursor: not-allowed; }
         .btn-equip { background-color: #00ffcc; color: #000; font-size: 18px; padding: 10px 20px; box-shadow: 0 4px 0 #00aa88; margin-top:10px; width: 100%; }
         
-        .guide-box { background: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; border: 2px solid #ffcc00; max-width: 600px; text-align: left; line-height: 1.6; }
+        .guide-box { background: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; border: 2px solid #ffcc00; max-width: 600px; width: 90%; text-align: left; line-height: 1.6; max-height: 80vh; overflow-y: auto; box-sizing: border-box; }
         .guide-box h3 { color: #ffcc00; margin-top: 15px; border-bottom: 1px solid #444; padding-bottom: 5px; }
         .item-row { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
         .item-icon { font-size: 30px; min-width: 40px; text-align: center; }
@@ -93,23 +93,49 @@
         <div class="guide-box">
             <h2 id="txGuideTitle" style="text-align: center; color: #ff3366; margin: 0;">MANUALE DEL BASTARDO</h2>
             
-            <h3>POWER-UPS (I BUONI)</h3>
-            <div class="item-row"><span class="item-icon">🛡️</span> <p><b>SCUDO:</b> Ti protegge da un impatto mortale.</p></div>
-            <div class="item-row"><span class="item-icon">🧲</span> <p><b>CALAMITA:</b> Attira tutte le monete verso di te.</p></div>
-            <div class="item-row"><span class="item-icon">🚀</span> <p><b>JETPACK:</b> Ti fa volare schivando tutto per un po'.</p></div>
-            <div class="item-row"><span class="item-icon">⚡</span> <p><b>SONIC BOOM:</b> Velocità folle! Sei invulnerabile e distruggi tutto.</p></div>
-            <div class="item-row"><span class="item-icon">⚔️</span> <p><b>MUNIZIONI:</b> Lancia (freccia ⬆️) la tua arma per colpire i Boss.</p></div>
+            <div id="guide-it" class="lang-it">
+                <h3>I BASTARDI (SKINS)</h3>
+                <div class="item-row"><span class="item-icon">🐵</span> <p><b>MAPUKE:</b> Il bastardo base. Lancia tappi di birra e non ha bonus.</p></div>
+                <div class="item-row"><span class="item-icon">🦖</span> <p><b>LORD PINZU:</b> Salto lunare (gravità ridotta) e lancia palle di fuoco.</p></div>
+                <div class="item-row"><span class="item-icon">🐶</span> <p><b>NIDDU:</b> Fiuto per i soldi (Monete x2) e lancia ossa affilate.</p></div>
 
-            <h3>MALUS (I CATTIVI)</h3>
-            <div class="item-row"><span class="item-icon">🛢️</span> <p><b>MACCHIA D'OLIO:</b> Inverte temporaneamente i tuoi comandi.</p></div>
-            
-            <h3>I BOSS</h3>
-            <p style="font-size: 16px; color: #ccc; margin-bottom: 5px;">I boss ti inseguono lanciando malus specifici. Schivali o abbattili per 100 monete!</p>
-            <div class="item-row"><span class="item-icon">⛓️</span> <p><b>POLIZIA (Palla al Piede):</b> Ti impedisce di saltare per 3 secondi.</p></div>
-            <div class="item-row"><span class="item-icon">⚡</span> <p><b>DRONE (Raggio EMP):</b> Ti paralizza, impedendo di spostarti di lato.</p></div>
-            <div class="item-row"><span class="item-icon">☄️</span> <p><b>DRAGO (Roccia Magmatica):</b> Ti brucia 50 monete d'oro istantaneamente.</p></div>
+                <h3>POWER-UPS (I BUONI)</h3>
+                <div class="item-row"><span class="item-icon">🛡️</span> <p><b>SCUDO:</b> Ti protegge da un impatto mortale.</p></div>
+                <div class="item-row"><span class="item-icon">🧲</span> <p><b>CALAMITA:</b> Attira tutte le monete verso di te.</p></div>
+                <div class="item-row"><span class="item-icon">🚀</span> <p><b>JETPACK:</b> Ti fa volare schivando tutto per un po'.</p></div>
+                <div class="item-row"><span class="item-icon">⚡</span> <p><b>SONIC BOOM:</b> Velocità folle! Sei invulnerabile e distruggi tutto.</p></div>
+                <div class="item-row"><span class="item-icon">⚔️</span> <p><b>MUNIZIONI:</b> Lancia (freccia ⬆️) la tua arma per colpire i Boss.</p></div>
+                <h3>MALUS (I CATTIVI)</h3>
+                <div class="item-row"><span class="item-icon">🛢️</span> <p><b>MACCHIA D'OLIO:</b> Inverte temporaneamente i tuoi comandi.</p></div>
+                <h3>I BOSS</h3>
+                <p style="font-size: 16px; color: #ccc; margin-bottom: 5px;">I boss ti inseguono lanciando malus specifici. Schivali o abbattili per 100 monete!</p>
+                <div class="item-row"><span class="item-icon">⛓️</span> <p><b>POLIZIA (Palla al Piede):</b> Ti impedisce di saltare per 3 secondi.</p></div>
+                <div class="item-row"><span class="item-icon">⚡</span> <p><b>DRONE (Raggio EMP):</b> Ti paralizza, impedendo di spostarti di lato per 3s.</p></div>
+                <div class="item-row"><span class="item-icon">☄️</span> <p><b>DRAGO (Roccia Magmatica):</b> Ti brucia 50 monete d'oro istantaneamente.</p></div>
+            </div>
 
-            <button class="btn" style="width: 100%; margin-top: 20px;" onclick="goToMenu()">HO CAPITO</button>
+            <div id="guide-en" class="lang-en" style="display: none;">
+                <h3>THE BASTERDS (SKINS)</h3>
+                <div class="item-row"><span class="item-icon">🐵</span> <p><b>MAPUKE:</b> The basic basterd. Throws beer caps. No bonus.</p></div>
+                <div class="item-row"><span class="item-icon">🦖</span> <p><b>LORD PINZU:</b> Moon jump (lower gravity) and shoots fireballs.</p></div>
+                <div class="item-row"><span class="item-icon">🐶</span> <p><b>NIDDU:</b> Money sniffer (Coins x2) and throws sharp bones.</p></div>
+
+                <h3>POWER-UPS (THE GOOD)</h3>
+                <div class="item-row"><span class="item-icon">🛡️</span> <p><b>SHIELD:</b> Protects you from a deadly impact.</p></div>
+                <div class="item-row"><span class="item-icon">🧲</span> <p><b>MAGNET:</b> Attracts all coins towards you.</p></div>
+                <div class="item-row"><span class="item-icon">🚀</span> <p><b>JETPACK:</b> Makes you fly, dodging everything for a while.</p></div>
+                <div class="item-row"><span class="item-icon">⚡</span> <p><b>SONIC BOOM:</b> Insane speed! You are invincible and destroy everything.</p></div>
+                <div class="item-row"><span class="item-icon">⚔️</span> <p><b>AMMO:</b> Throw (arrow ⬆️) your weapon to hit the Bosses.</p></div>
+                <h3>MALUS (THE BAD)</h3>
+                <div class="item-row"><span class="item-icon">🛢️</span> <p><b>OIL SPILL:</b> Temporarily reverses your controls.</p></div>
+                <h3>THE BOSSES</h3>
+                <p style="font-size: 16px; color: #ccc; margin-bottom: 5px;">Bosses chase you dropping specific debuffs. Dodge or defeat them for 100 coins!</p>
+                <div class="item-row"><span class="item-icon">⛓️</span> <p><b>POLICE (Ball and Chain):</b> Prevents jumping for 3 seconds.</p></div>
+                <div class="item-row"><span class="item-icon">⚡</span> <p><b>DRONE (EMP Ray):</b> Paralyzes you, preventing lane changes for 3s.</p></div>
+                <div class="item-row"><span class="item-icon">☄️</span> <p><b>DRAGON (Magma Rock):</b> Instantly burns 50 of your gold coins.</p></div>
+            </div>
+
+            <button id="btnGuideGotIt" class="btn" style="width: 100%; margin-top: 20px;" onclick="goToMenu()">HO CAPITO</button>
         </div>
     </div>
 
@@ -175,6 +201,7 @@
 
     let lang = localStorage.getItem('runnerLang') || 'it';
     function toggleLang() { lang = lang === 'it' ? 'en' : 'it'; localStorage.setItem('runnerLang', lang); applyLanguage(); if(gameState==="SHOP")renderShop(); if(gameState==="MISSIONS")openMissions(); }
+    
     function applyLanguage() { 
         const t=i18n[lang]; document.getElementById("btnLang").innerText=t.flag; document.getElementById("mainTitle").innerText=t.title;
         document.getElementById("btnPlayMenu").innerText=t.play; document.getElementById("btnShopMenu").innerText=t.shop; 
@@ -197,6 +224,11 @@
         document.getElementById("txUpgSonicTitle").innerText=t.upgSonic; document.getElementById("txUpgWeaponTitle").innerText=t.upgWeapon;
         document.getElementById("bossAlert").innerText=t.boss; document.getElementById("txConsumablesTitle").innerText=t.consumablesTitle;
         document.getElementById("btnBuyShield").innerText=`${t.buy} (50)`; document.getElementById("btnBuyMagnet").innerText=`${t.buy} (100)`;
+        
+        let btnGuide = document.getElementById("btnGuideGotIt");
+        if(btnGuide) btnGuide.innerText = lang === 'it' ? "HO CAPITO" : "GOT IT";
+        document.querySelectorAll('.lang-it').forEach(el => el.style.display = (lang === 'it') ? 'block' : 'none');
+        document.querySelectorAll('.lang-en').forEach(el => el.style.display = (lang === 'en') ? 'block' : 'none');
     }
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)(); let isMuted = false; let windGain;
@@ -529,7 +561,6 @@
         
         if(e.code==="Space" && !isJumping && !isDucking && jetpackTimer<=0 && chainTimer<=0){ isJumping=true; jumpVelocity=0.45; sfxJump(); }
         
-        // Cooldown ridotto per livello arma!
         let wepCoolBase = 20 - (upgLevels.weapon - 1) * 3;
         if(e.code==="ArrowUp"){ if(hasWeapon && weaponCooldown <= 0) { fireWeapon(); weaponCooldown = Math.max(5, wepCoolBase); cameraShake = 0.1; } }
         
@@ -752,7 +783,9 @@
         if(chainTimer>0) s+="<span class='red'>⛓️ " + Math.ceil(chainTimer/60) + "s</span> "; 
         if(empTimer>0) s+="<span class='cyan'>⚡ " + Math.ceil(empTimer/60) + "s</span> "; 
         if(sonicTimer>0) s+="<span class='white'>⚡ " + Math.ceil(sonicTimer/60) + "s</span> "; 
-        if(hasWeapon) s+="<span class='red'>⚔️ " + (lang==='it'?"PRONTO (⬆️)":"READY (⬆️)") + "</span> "; 
+        
+        const t = i18n[lang] || i18n['it'];
+        if(hasWeapon) s+="<span class='red'>⚔️ " + t.ready + " (⬆️)</span> "; 
         document.getElementById("buffDisplay").innerHTML=s; 
     }
 
@@ -790,32 +823,31 @@
 
         skyClouds.forEach(c => { c.position.x += 0.02; if(c.position.x > 40) c.position.x = -40; });
         
-        // SPOSTAMENTO CORSIA: Hitbox fissa a terra
         let laneDiff = lanes[currentLane] - playerGroup.position.x;
         playerGroup.position.x += laneDiff * 0.2;
         
         let maxDist = 3.0; 
         let distToTarget = Math.abs(laneDiff);
-        let hopDist = Math.min(distToTarget, maxDist); // Blocco anti-sprofondamento
-        let visualHop = hopDist * (maxDist - hopDist) * 0.25; 
+        let hopDist = Math.min(distToTarget, maxDist); 
+        let visualHop = Math.sin((1.0 - (hopDist / maxDist)) * Math.PI) * 0.8; 
         
-        // SALTO FISICO (Spazio) E JETPACK (Pose dedicate e niente giravolte buggate)
         if(jetpackTimer>0){ 
             playerY+=(4-playerY)*0.1; jetpackTimer--; 
             if(jetpackTimer<=0) { isJumping=true; jumpVelocity=0; invincibleTimer=120; cameraShake=0.2; } 
             
-            // Posa volo fissa
             playerGroup.rotation.set(-0.4, 0, 0);
-            legL.rotation.x = -0.5; legR.rotation.x = -0.5;
-            armL.rotation.x = 3.14; armR.rotation.x = 3.14; // Braccia indietro
+            legL.rotation.x = -0.2; legR.rotation.x = 0.2;
+            armL.rotation.x = -1.5; armR.rotation.x = -1.5; 
             
-            // Fiamme Jetpack!
             if(Math.random()<0.6) spawnParticles(playerGroup.position.x - 0.2, playerY + 0.5, playerGroup.position.z, 0xff5500, 1);
             if(Math.random()<0.6) spawnParticles(playerGroup.position.x + 0.2, playerY + 0.5, playerGroup.position.z, 0xff5500, 1);
         }
         else if(isJumping){ 
             playerY+=jumpVelocity; jumpVelocity+=pGravity; 
             
+            legL.rotation.x = -0.5; legR.rotation.x = 0.5; 
+            armL.rotation.x = 2.5; armR.rotation.x = 2.5; 
+
             let maxJ = 0.45; 
             let jumpProgress = (maxJ - jumpVelocity) / (maxJ * 2); 
             jumpProgress = Math.max(0, Math.min(1, jumpProgress)); 
@@ -834,7 +866,6 @@
             } 
         }
 
-        // SCIVOLATA
         if(isDucking){ 
             duckTimer--; 
             if(duckTimer<=0){ 
@@ -851,8 +882,10 @@
             head.position.y = 1.0; body.scale.y = 0.5; body.position.y = 0.4;
             armL.position.y = 0.5; armR.position.y = 0.5;
             playerGroup.rotation.x = -0.5; 
+            
+            legL.rotation.x = 1.5; legR.rotation.x = 1.5; 
+            armL.rotation.x = -1.5; armR.rotation.x = -1.5;
         } else if (!isJumping && jetpackTimer <= 0) {
-            // Inclinazione laterale fluida durante il salto visivo del cambio corsia
             if (distToTarget > 0.05) {
                 let dir = laneDiff > 0 ? -1 : 1; 
                 playerGroup.rotation.set(0, 0, ((maxDist - hopDist) / maxDist) * 0.5 * dir); 
@@ -898,7 +931,8 @@
                 bossTimer = 1000; 
                 bossHP = 5; 
                 invincibleTimer = 60; 
-                showFloatingText("BOSS WARNING!");
+                const t = i18n[lang] || i18n['it'];
+                showFloatingText(t.bossWarning);
                 
                 bPolice.visible=false; bDrone.visible=false; bDragon.visible=false;
                 if(currentBiomeIndex===0) bPolice.visible=true; else if(currentBiomeIndex===1) bDrone.visible=true; else bDragon.visible=true;
@@ -942,7 +976,12 @@
             }
             
             bossTimer--; 
-            if(bossTimer<=0) { bossActive=false; showFloatingText("STAGE CLEARED!"); triggerNextStage(); } 
+            if(bossTimer<=0) { 
+                bossActive=false; 
+                const t = i18n[lang] || i18n['it'];
+                showFloatingText(t.stageCleared); 
+                triggerNextStage(); 
+            } 
         } else { bossGroup.position.z += (-100 - bossGroup.position.z) * 0.02; }
 
         for(let i=particles.length-1;i>=0;i--){ let p=particles[i]; p.position.add(p.velocity); p.life--; p.scale.multiplyScalar(0.9); if(p.life<=0){ scene.remove(p); particles.splice(i,1); } }
@@ -960,7 +999,9 @@
                 spawnParticles(bossGroup.position.x, bossGroup.position.y+1, bossGroup.position.z, 0xff3333, 20); sfxExplosion(); addCombo(); cameraShake = 0.2;
                 bossHP--; bossGroup.position.z -= 2; 
                 if(bossHP <= 0) { 
-                    bossActive = false; coinsCollected += 100; spawnParticles(bossGroup.position.x, bossGroup.position.y+1, bossGroup.position.z, 0xffcc00, 50); showFloatingText("BOSS DEFEATED!"); 
+                    bossActive = false; coinsCollected += 100; spawnParticles(bossGroup.position.x, bossGroup.position.y+1, bossGroup.position.z, 0xffcc00, 50); 
+                    const t = i18n[lang] || i18n['it'];
+                    showFloatingText(t.bossDefeated); 
                     triggerNextStage();
                 }
                 scene.remove(p); projectiles.splice(i, 1); continue;
@@ -991,7 +1032,14 @@
             
             let dZ=Math.abs(playerGroup.position.z-o.position.z); let dX=Math.abs(playerGroup.position.x-o.position.x);
             
-            if(o.position.z > playerGroup.position.z && !o.passed) { o.passed = true; if(dX < 1.5 && dZ < 2.5 && sonicTimer<=0) { addCombo(); showFloatingText(i18n[lang].dodge); } }
+            if(o.position.z > playerGroup.position.z && !o.passed) { 
+                o.passed = true; 
+                if(dX < 1.5 && dZ < 2.5 && sonicTimer<=0) { 
+                    addCombo(); 
+                    const t = i18n[lang] || i18n['it'];
+                    showFloatingText(t.dodge); 
+                } 
+            }
 
             let inHitbox = (dZ<1.5 && dX<1.2);
             if(o.obsType==="crossing") inHitbox = (dZ<1.5 && dX<1.5); 
@@ -1024,7 +1072,11 @@
 
         for(let i=0;i<trackBoosts.length;i++){
             let b=trackBoosts[i]; 
-            if(b.userData && b.userData.isSprite) { b.position.z+=currentSpeed; } else { b.rotation.y+=0.05; b.rotation.x+=0.05; b.position.z+=currentSpeed; }
+            b.position.z += currentSpeed;
+            if(b.boostType !== 'oil' && b.children.length > 0) { 
+                b.children[0].rotation.y += 0.05; 
+            } 
+            
             let dZ=Math.abs(playerGroup.position.z-b.position.z); let dX=Math.abs(playerGroup.position.x-b.position.x); 
             let dY=Math.abs(playerY+1-b.position.y); 
             
@@ -1032,10 +1084,11 @@
                 if(b.boostType==='oil'){ oilTimer=180; playTone(200, 'sine', 0.4, 0.1); }
                 else {
                     sfxBoost(); addCombo();
+                    const t = i18n[lang] || i18n['it'];
                     if(b.boostType==='shield'){shieldActive=true;shieldMesh.visible=true;spawnParticles(b.position.x,b.position.y,b.position.z,0x4488ff,20);}
                     else if(b.boostType==='magnet'){magnetActive=true;magnetTimer=600+(upgLevels.magnet-1)*300;spawnParticles(b.position.x,b.position.y,b.position.z,0x00ffcc,20);}
                     else if(b.boostType==='jetpack'){jetpackTimer=300+(upgLevels.jetpack-1)*150;spawnParticles(b.position.x,b.position.y,b.position.z,0xff00ff,20);} 
-                    else if(b.boostType==='sonic'){sonicTimer=300+(upgLevels.sonic-1)*150;spawnParticles(b.position.x,b.position.y,b.position.z,0xffffff,30); showFloatingText("SONIC BOOM!");} 
+                    else if(b.boostType==='sonic'){sonicTimer=300+(upgLevels.sonic-1)*150;spawnParticles(b.position.x,b.position.y,b.position.z,0xffffff,30); showFloatingText(t.sonicBoom);} 
                     else if(b.boostType==='weapon'){hasWeapon=true;spawnParticles(b.position.x,b.position.y,b.position.z,0xff3333,20);} 
                 }
                 updateBuffUI(); scene.remove(b); trackBoosts.splice(i,1); i--; 
@@ -1054,15 +1107,26 @@
             let dY=Math.abs(playerY+(isDucking?1:2)/2-c.position.y); 
             
             if(dZ<1.5&&dX<1.5&&dY<hitBoxY){ 
-                sfxCoin(); addCombo(); spawnParticles(c.position.x,c.position.y,c.position.z,0xffd700,10); scene.remove(c); coins.splice(i,1); i--; coinsCollected+=coinMult; stats.totalCoins+=coinMult; saveStats(); document.getElementById("coins").innerText=coinsCollected; 
-            }else if(c.position.z>10){scene.remove(c);coins.splice(i,1);i--;}
+                sfxCoin(); addCombo(); spawnParticles(c.position.x,c.position.y,c.position.z,0xffd700,10); scene.remove(c); coins.splice(i,1); i--; 
+                
+                coinsCollected+=coinMult; stats.totalCoins+=coinMult; 
+                document.getElementById("coins").innerText=coinsCollected;
+                
+            } else if(c.position.z>10) {scene.remove(c);coins.splice(i,1);i--;}
         }
 
-        if(cameraShake > 0) { camera.position.x = baseCamX + (Math.random()-0.5)*cameraShake; camera.position.y = baseCamY + (Math.random()-0.5)*cameraShake; cameraShake*=0.8; if(cameraShake<0.01) cameraShake=0; } 
-        else { camera.position.x = baseCamX; camera.position.y = baseCamY; }
-        camera.lookAt(0, 3, -10);
+        let targetCamX = playerGroup.position.x * 0.6; 
+        if(cameraShake > 0) { 
+            camera.position.x = baseCamX + targetCamX + (Math.random()-0.5)*cameraShake; 
+            camera.position.y = baseCamY + (Math.random()-0.5)*cameraShake; 
+            cameraShake*=0.8; if(cameraShake<0.01) cameraShake=0; 
+        } else { 
+            camera.position.x += ((baseCamX + targetCamX) - camera.position.x) * 0.1; 
+            camera.position.y = baseCamY; 
+        }
+        camera.lookAt(playerGroup.position.x * 0.3, 3, -10);
 
-        if(Math.random()<0.04+(currentSpeed*0.01))spawnEntity(); if(Math.random()<0.1)spawnScenery(); renderer.render(scene, camera);
+        renderer.render(scene, camera);
     }
 
     window.addEventListener("resize",()=>{camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight);});
