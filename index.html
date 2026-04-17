@@ -300,6 +300,7 @@
     function openShop() { gameState="SHOP"; switchScreen("shopMenu"); updateBankDisplay(); renderShop(); }
     
     function renderShop() {
+        updateBankDisplay();
         const t = i18n[lang]; document.getElementById("btnBuyShield").disabled = totalBankCoins < 50; document.getElementById("btnBuyMagnet").disabled = totalBankCoins < 100; document.getElementById("magnetInv").innerText = inventory.magnet; document.getElementById("shieldInv").innerText = inventory.shield;
         
         const types = ['magnet', 'jetpack', 'sonic', 'weapon'];
