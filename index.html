@@ -66,7 +66,7 @@
     </div>
 
     <div id="bossAlert">WARNING! BOSS INCOMING!</div>
-
+    
     <div id="gameUI" class="hidden">
         <div>Score: <span id="score">0</span> <span id="multiplierDisplay" class="magenta" style="font-size: 20px; margin-left: 10px;">x1</span></div>
         <div id="buffDisplay" style="text-align: center; font-size: 24px;"></div>
@@ -107,7 +107,7 @@
                 <div class="item-row"><span class="item-icon">🧲</span> <p><b>CALAMITA:</b> Attira tutte le monete verso di te.</p></div>
                 <div class="item-row"><span class="item-icon">🚀</span> <p><b>JETPACK:</b> Ti fa volare schivando tutto per un po'.</p></div>
                 <div class="item-row"><span class="item-icon">⚡</span> <p><b>SONIC BOOM:</b> Velocità folle! Sei invulnerabile e distruggi tutto.</p></div>
-                <div class="item-row"><span class="item-icon">⚔️</span> <p><b>MUNIZIONI:</b> Lancia (freccia ⬆️) la tua arma per colpire i Boss.</p></div>
+                <div class="item-row"><span class="item-icon">⚔️</span> <p><b>MUNIZIONI:</b> Spara (freccia ⬆️) per farti strada! Raccoglile per potenziare l'arma (Lv 2 e 3 a colpi limitati).</p></div>
                 <h3>MALUS (I CATTIVI)</h3>
                 <div class="item-row"><span class="item-icon">🛢️</span> <p><b>MACCHIA D'OLIO:</b> Inverte temporaneamente i tuoi comandi.</p></div>
                 <h3>I BOSS</h3>
@@ -129,7 +129,7 @@
                 <div class="item-row"><span class="item-icon">🧲</span> <p><b>MAGNET:</b> Attracts all coins towards you.</p></div>
                 <div class="item-row"><span class="item-icon">🚀</span> <p><b>JETPACK:</b> Makes you fly, dodging everything for a while.</p></div>
                 <div class="item-row"><span class="item-icon">⚡</span> <p><b>SONIC BOOM:</b> Insane speed! You are invincible and destroy everything.</p></div>
-                <div class="item-row"><span class="item-icon">⚔️</span> <p><b>AMMO:</b> Throw (arrow ⬆️) your weapon to hit the Bosses.</p></div>
+                <div class="item-row"><span class="item-icon">⚔️</span> <p><b>AMMO:</b> Shoot (arrow ⬆️) your way through! Collect to upgrade (Lv 2 and 3 have limited ammo).</p></div>
                 <h3>MALUS (THE BAD)</h3>
                 <div class="item-row"><span class="item-icon">🛢️</span> <p><b>OIL SPILL:</b> Temporarily reverses your controls.</p></div>
                 <h3>THE BOSSES</h3>
@@ -167,7 +167,8 @@
             <div class="shop-item" style="border-color: #ff00ff;"><h3 id="txUpgJetpackTitle" class="magenta">Lvl Jetpack</h3><p class="magenta">Lvl <span id="lvlJetDisp">1</span>/5</p><button id="btnUpgJet" class="btn btn-buy" onclick="upgradeBoost('jetpack')">Up (200)</button></div>
             <div class="shop-item" style="border-color: #ffffff;"><h3 id="txUpgSonicTitle" style="color:white;">Lvl Sonic</h3><p style="color:white;">Lvl <span id="lvlSonDisp">1</span>/5</p><button id="btnUpgSon" class="btn btn-buy" onclick="upgradeBoost('sonic')">Up (200)</button></div>
             <div class="shop-item" style="border-color: #ff3333;"><h3 id="txUpgWeaponTitle" class="red">Lvl Arma</h3><p class="red">Lvl <span id="lvlWepDisp">1</span>/5</p><button id="btnUpgWep" class="btn btn-buy" onclick="upgradeBoost('weapon')">Up (200)</button></div>
-        </div>
+        <div class="shop-item" style="border-color: #ffff00;"><h3 id="txUpgAmmoTitle" style="color:yellow;">Caricatore</h3><p style="color:yellow;">Lvl <span id="lvlAmmDisp">1</span>/5</p><button id="btnUpgAmm" class="btn btn-buy" onclick="upgradeBoost('ammo')">Up (200)</button></div>
+</div>
         <button id="btnBackShop" class="btn" onclick="goToMenu()" style="margin-top: 30px; margin-bottom: 50px; width: 250px;">INDIETRO</button>
     </div>
 
@@ -200,8 +201,8 @@
 <script>
     // --- I18N ---
     const i18n = {
-        it: { flag: "🇮🇹", title: "BASTARDI SENZA GLORIA 3D", play: "GIOCA", shop: "SHOP", missions: "MISSIONI", guide: "GUIDA", guideTitle: "MANUALE DEL BASTARDO", hs: "HIGH SCORE:", bank: "Banca:", hudCoins: "Monete:", controls: "⬅️ ➡️ Sposta | <b>SPAZIO</b> Salta | ⬇️ Scivola (Tieni premuto) | ⬆️ Lancia | <b>ESC</b> Pausa | <b>G</b> GodMode", shopTitle: "Taverna / Shop", shopCoins: "Monete:", skinsTitle: "I BASTARDI", powerupsTitle: "POTENZIAMENTI DEFINITIVI", buy: "Compra", equip: "Equipaggia", equipped: "Equipaggiato", back: "INDIETRO", pause: "PAUSA", pauseDesc: "Premi ESC per riprendere", resume: "RIPRENDI", quit: "ABBANDONA RUN", crash: "SCHIANTO!", finalScore: "Score Finale:", finalCoins: "Monete:", retry: "RIPROVA", menu: "MENU", mTitle: "Missioni", mDesc: "Sali di livello completando le sfide!", claim: "Riscatta", completed: "Completata", m1: "Raccogli Monete", m2: "Esegui Scivolate", m3: "Gioca Partite", shieldName: "Scudo 🛡️", magnetName: "Calamita 🧲", owned: "Posseduti:", upgMagnet: "Lvl Calamita", upgJetpack: "Lvl Jetpack", upgSonic: "Lvl Sonic Boom", upgWeapon: "Lvl Arma", max: "MAX", boss: "WARNING! BOSS IN ARRIVO!", dodge: "SCHIVATA!", speedUp: "VELOCITÀ SUPER!", descBase: "Nessun bonus.", descMapuke: "Salto Super + Tappi", descPinzu: "Immune Barriere + Fuoco", descNiddu: "Monete x2 + Ossa", consumablesTitle: "SCORTE" },
-        en: { flag: "🇬🇧", title: "INGLOURIOUS BASTERDS 3D", play: "PLAY", shop: "STORE", missions: "MISSIONS", guide: "GUIDE", guideTitle: "BASTERDS MANUAL", hs: "HIGH SCORE:", bank: "Bank:", hudCoins: "Coins:", controls: "⬅️ ➡️ Move | <b>SPACE</b> Jump | ⬇️ Slide (Hold) | ⬆️ Throw | <b>ESC</b> Pause | <b>G</b> GodMode", shopTitle: "Tavern / Store", shopCoins: "Coins:", skinsTitle: "THE BASTERDS", powerupsTitle: "PERMANENT UPGRADES", buy: "Buy", equip: "Equip", equipped: "Equipped", back: "BACK", pause: "PAUSED", pauseDesc: "Press ESC to resume", resume: "RESUME", quit: "QUIT RUN", crash: "CRASHED!", finalScore: "Final Score:", finalCoins: "Coins:", retry: "RETRY", menu: "MENU", mTitle: "Missions", mDesc: "Level up by completing tasks!", claim: "Claim", completed: "Completed", m1: "Collect Coins", m2: "Perform Slides", m3: "Play Games", shieldName: "Shield 🛡️", magnetName: "Magnet 🧲", owned: "Owned:", upgMagnet: "Magnet Lvl", upgJetpack: "Jetpack Lvl", upgSonic: "Sonic Lvl", upgWeapon: "Weapon Lvl", max: "MAX", boss: "WARNING! BOSS INCOMING!", dodge: "CLOSE CALL!", speedUp: "SPEED UP!", descBase: "No bonus.", descMapuke: "Super Jump + Caps", descPinzu: "Immune Barriers + Fire", descNiddu: "Coins x2 + Bones", consumablesTitle: "SUPPLIES" }
+        it: { flag: "🇮🇹", title: "BASTARDI SENZA GLORIA 3D", play: "GIOCA", shop: "SHOP", missions: "MISSIONI", guide: "GUIDA", guideTitle: "MANUALE DEL BASTARDO", hs: "HIGH SCORE:", bank: "Banca:", hudCoins: "Monete:", controls: "⬅️ ➡️ Sposta | <b>SPAZIO</b> Salta | ⬇️ Scivola (Tieni premuto) | ⬆️ Lancia | <b>ESC</b> Pausa | <b>G</b> GodMode", shopTitle: "Taverna / Shop", shopCoins: "Monete:", skinsTitle: "I BASTARDI", powerupsTitle: "POTENZIAMENTI DEFINITIVI", buy: "Compra", equip: "Equipaggia", equipped: "Equipaggiato", back: "INDIETRO", pause: "PAUSA", pauseDesc: "Premi ESC per riprendere", resume: "RIPRENDI", quit: "ABBANDONA RUN", crash: "SCHIANTO!", finalScore: "Score Finale:", finalCoins: "Monete:", retry: "RIPROVA", menu: "MENU", mTitle: "Missioni", mDesc: "Sali di livello completando le sfide!", claim: "Riscatta", completed: "Completata", m1: "Raccogli Monete", m2: "Esegui Scivolate", m3: "Gioca Partite", shieldName: "Scudo 🛡️", magnetName: "Calamita 🧲", owned: "Posseduti:", upgMagnet: "Lvl Calamita", upgJetpack: "Lvl Jetpack", upgSonic: "Lvl Sonic Boom", upgWeapon: "Lvl Arma", upgAmmo: "Caricatore", max: "MAX", boss: "WARNING! BOSS IN ARRIVO!", dodge: "SCHIVATA!", speedUp: "VELOCITÀ SUPER!", descBase: "Nessun bonus.", descMapuke: "Salto Super + Tappi", descPinzu: "Immune Barriere + Fuoco", descNiddu: "Monete x2 + Ossa", consumablesTitle: "SCORTE" },
+        en: { flag: "🇬🇧", title: "INGLOURIOUS BASTERDS 3D", play: "PLAY", shop: "STORE", missions: "MISSIONS", guide: "GUIDE", guideTitle: "BASTERDS MANUAL", hs: "HIGH SCORE:", bank: "Bank:", hudCoins: "Coins:", controls: "⬅️ ➡️ Move | <b>SPACE</b> Jump | ⬇️ Slide (Hold) | ⬆️ Throw | <b>ESC</b> Pause | <b>G</b> GodMode", shopTitle: "Tavern / Store", shopCoins: "Coins:", skinsTitle: "THE BASTERDS", powerupsTitle: "PERMANENT UPGRADES", buy: "Buy", equip: "Equip", equipped: "Equipped", back: "BACK", pause: "PAUSED", pauseDesc: "Press ESC to resume", resume: "RESUME", quit: "QUIT RUN", crash: "CRASHED!", finalScore: "Final Score:", finalCoins: "Coins:", retry: "RETRY", menu: "MENU", mTitle: "Missions", mDesc: "Level up by completing tasks!", claim: "Claim", completed: "Completed", m1: "Collect Coins", m2: "Perform Slides", m3: "Play Games", shieldName: "Shield 🛡️", magnetName: "Magnet 🧲", owned: "Owned:", upgMagnet: "Magnet Lvl", upgJetpack: "Jetpack Lvl", upgSonic: "Sonic Lvl", upgWeapon: "Weapon Lvl", upgAmmo: "Ammo Cap", max: "MAX", boss: "WARNING! BOSS INCOMING!", dodge: "CLOSE CALL!", speedUp: "SPEED UP!", descBase: "No bonus.", descMapuke: "Super Jump + Caps", descPinzu: "Immune Barriers + Fire", descNiddu: "Coins x2 + Bones", consumablesTitle: "SUPPLIES" }
     };
 
     let lang = localStorage.getItem('runnerLang') || 'it';
@@ -227,6 +228,7 @@
         document.getElementById("txOwned1").innerText=t.owned; document.getElementById("txOwned2").innerText=t.owned;
         document.getElementById("txUpgMagnetTitle").innerText=t.upgMagnet; document.getElementById("txUpgJetpackTitle").innerText=t.upgJetpack;
         document.getElementById("txUpgSonicTitle").innerText=t.upgSonic; document.getElementById("txUpgWeaponTitle").innerText=t.upgWeapon;
+if(document.getElementById("txUpgAmmoTitle")) document.getElementById("txUpgAmmoTitle").innerText=t.upgAmmo;
         document.getElementById("bossAlert").innerText=t.boss; document.getElementById("txConsumablesTitle").innerText=t.consumablesTitle;
         document.getElementById("btnBuyShield").innerText=`${t.buy} (50)`; document.getElementById("btnBuyMagnet").innerText=`${t.buy} (100)`;
         
@@ -279,7 +281,8 @@
         magnet: parseInt(localStorage.getItem("runnerUpgMagnet")) || 1,
         jetpack: parseInt(localStorage.getItem("runnerUpgJetpack")) || 1,
         sonic: parseInt(localStorage.getItem("runnerUpgSonic")) || 1,
-        weapon: parseInt(localStorage.getItem("runnerUpgWeapon")) || 1
+        weapon: parseInt(localStorage.getItem("runnerUpgWeapon")) || 1,
+        ammo: parseInt(localStorage.getItem("runnerUpgAmmo")) || 1
     };
 
     let stats = JSON.parse(localStorage.getItem('runnerStats')) || { totalCoins: 0, totalSlides: 0, gamesPlayed: 0 };
@@ -307,8 +310,8 @@
         updateBankDisplay();
         const t = i18n[lang]; document.getElementById("btnBuyShield").disabled = totalBankCoins < 50; document.getElementById("btnBuyMagnet").disabled = totalBankCoins < 100; document.getElementById("magnetInv").innerText = inventory.magnet; document.getElementById("shieldInv").innerText = inventory.shield;
         
-        const types = ['magnet', 'jetpack', 'sonic', 'weapon'];
-        const ids = ['Mag', 'Jet', 'Son', 'Wep'];
+        const types = ['magnet', 'jetpack', 'sonic', 'weapon', 'ammo'];
+        const ids = ['Mag', 'Jet', 'Son', 'Wep', 'Amm'];
         
         types.forEach((type, idx) => {
             let lvl = upgLevels[type];
@@ -404,7 +407,13 @@
     const matLavaTransenna = new THREE.MeshLambertMaterial({color: 0x331100, emissive: 0x551100}); const matLavaTrain = new THREE.MeshLambertMaterial({color: 0x221111, emissive: 0x882200});
 
     const bossGroup = new THREE.Group(); scene.add(bossGroup);
-    
+    // Barra HP 3D
+    const hpBarBg = new THREE.Mesh(new THREE.PlaneGeometry(4, 0.4), new THREE.MeshBasicMaterial({color: 0x333333}));
+    hpBarBg.position.y = 6; hpBarBg.name = "hpBarBg";
+    const hpBarFill = new THREE.Mesh(new THREE.PlaneGeometry(4, 0.4), new THREE.MeshBasicMaterial({color: 0xff0000}));
+    hpBarFill.position.y = 6; hpBarFill.position.z = 0.01; hpBarFill.name = "hpBarFill";
+    const bossHPBar3D = new THREE.Group(); bossHPBar3D.add(hpBarBg); bossHPBar3D.add(hpBarFill);
+    bossHPBar3D.visible = false; bossGroup.add(bossHPBar3D);
     // 1. BOSS POLIZIA 
     const bPolice = new THREE.Group(); 
     const pb = new THREE.Mesh(new THREE.BoxGeometry(2, 0.8, 4), new THREE.MeshLambertMaterial({color:0x111122})); pb.position.y=0.4; pb.castShadow=true; bPolice.add(pb); 
@@ -550,10 +559,10 @@
     let gameState = "MENU"; let score=0; let coinsCollected=0; let multiplier=1; let gameSpeed=0.4; let sonicTimer = 0;
     let currentLane=1; let playerY=0; let isJumping=false; let jumpVelocity=0; let pGravity=-0.025; let coinMult=1;
     let isDucking=false; let duckTimer=0; let magnetActive=false; let magnetTimer=0; let shieldActive=false;
-    let jetpackTimer=0; let oilTimer=0; let chainTimer=0; let empTimer=0; let invincibleTimer=0; let weaponCooldown=0; let hasWeapon=false; let inGameWeaponLevel=0;
+    let jetpackTimer=0; let oilTimer=0; let chainTimer=0; let empTimer=0; let invincibleTimer=0; let weaponCooldown=0; let hasWeapon=true; let inGameWeaponLevel=1; let weaponAmmo=0;
     let runTime = 0; 
     
-    let bossActive=false; let bossTimer=0; let bossHP=5; let currentBiomeIndex=0; let bossCooldown=1000; let nextBossScore=1000;
+    let bossActive=false; let bossTimer=0; let bossHP=10; let bossMaxHP=10; let currentBiomeIndex=0; let bossCooldown=1000; let nextBossScore=1000;
     let obstacles=[]; let coins=[]; let envObjects=[]; let trackBoosts=[]; let sleepers=[]; let projectiles=[];
 
     document.addEventListener("keydown", (e) => {
@@ -630,7 +639,7 @@
         
         playerGroup.rotation.set(0, 0, 0); 
         cameraShake=0; currentBiomeIndex=0; sonicTimer = 0; nextBossScore=1000; runTime=0;
-        bossActive=false; bossGroup.position.z=40; jetpackTimer=0; oilTimer=0; chainTimer=0; empTimer=0; invincibleTimer=0; weaponCooldown=0; hasWeapon=false; inGameWeaponLevel=0; playerGroup.visible=true; baseFov=60; camera.fov=baseFov; camera.updateProjectionMatrix();
+        bossActive=false; bossGroup.position.z=40; jetpackTimer=0; oilTimer=0; chainTimer=0; empTimer=0; invincibleTimer=0; weaponCooldown=0; hasWeapon=true; inGameWeaponLevel=1; weaponAmmo=0; playerGroup.visible=true; bossHPBar3D.visible = false; baseFov=60; camera.fov=baseFov; camera.updateProjectionMatrix();
         bossCooldown=1000;
         stats.gamesPlayed++; saveStats(); 
         pGravity = currentSkin === 'default' ? -0.015 : -0.025;
@@ -647,7 +656,7 @@
 
     function triggerGameOver() {
         gameState="GAMEOVER"; clearInterval(bgmInterval); sfxCrash(); spawnParticles(playerGroup.position.x, playerGroup.position.y+1, playerGroup.position.z, 0xff3366, 50); cameraShake = 0.5; document.getElementById("comboContainer").style.display="none";
-        if(windGain) windGain.gain.value = 0; playerGroup.visible=true;
+        if(windGain) windGain.gain.value = 0; playerGroup.visible=true; bossHPBar3D.visible = false;
         totalBankCoins+=coinsCollected; localStorage.setItem("runnerBankCoins", totalBankCoins); 
         let finalScore=Math.floor(score); if(finalScore>highScore){ highScore=finalScore; localStorage.setItem("runnerHighScore", highScore); }
         document.getElementById("finalScore").innerText=finalScore; document.getElementById("finalCoins").innerText=coinsCollected; switchScreen("gameOverMenu");
@@ -659,10 +668,10 @@
     }
 
     function fireWeapon() {
-        let numProjectiles = inGameWeaponLevel; 
-        let spread = 0.5; 
+        // Se è livello 3 spariamo 4 proiettili (2 dritti + 2 laterali)
+        let loopCount = inGameWeaponLevel === 3 ? 4 : inGameWeaponLevel;
 
-        for(let i=0; i<numProjectiles; i++) {
+        for(let i=0; i<loopCount; i++) {
             let proj = new THREE.Group();
             
             if(currentSkin === 'base') {
@@ -682,17 +691,36 @@
             }
             
             let offsetX = 0;
-            if(numProjectiles === 2) offsetX = (i === 0) ? -spread/2 : spread/2;
-            if(numProjectiles === 3) offsetX = (i === 0) ? -spread : (i === 2 ? spread : 0);
+            let velX = 0;
+            
+            if (inGameWeaponLevel === 2) {
+                // Lv 2: Doppio colpo frontale (Doppietta)
+                offsetX = (i === 0) ? -0.3 : 0.3;
+            } else if (inGameWeaponLevel === 3) {
+                // Lv 3: Doppietta frontale + 2 Diagonali (4 colpi totali!)
+                if (i === 0) offsetX = -0.3;
+                else if (i === 1) offsetX = 0.3;
+                else if (i === 2) velX = -0.22;
+                else if (i === 3) velX = 0.22;
+            }
 
             proj.position.set(playerGroup.position.x + offsetX, playerY + 1, playerGroup.position.z - 1);
             
-            proj.velX = (numProjectiles > 1) ? (offsetX * 0.1) : 0; 
+            proj.velX = velX; 
             proj.velZ = -(gameSpeed + 0.3 + (inGameWeaponLevel * 0.1)); 
             
             scene.add(proj); projectiles.push(proj);
         }
         sfxShoot();
+        // Consuma munizioni se non siamo a livello 1
+        if(inGameWeaponLevel > 1) {
+            weaponAmmo--;
+            if(weaponAmmo <= 0) {
+                inGameWeaponLevel--;
+                if(inGameWeaponLevel > 1) weaponAmmo = 10; // Un piccolo buffer tornando al lv 2
+                showFloatingText(lang === 'it' ? "ARMA DECLASSATA!" : "WEAPON DOWNGRADE!");
+            }
+        }
     }
 
     function spawnBossHazard(bx, bz, type) {
@@ -817,7 +845,10 @@
         if(empTimer>0) s+="<span class='cyan'>⚡ " + Math.ceil(empTimer/60) + "s</span> "; 
         if(sonicTimer>0) s+="<span class='white'>⚡ " + Math.ceil(sonicTimer/60) + "s</span> "; 
         
-        if(hasWeapon) s+="<span class='red'>⚔️ LV" + inGameWeaponLevel + " " + (lang==='it' ? "PRONTO" : "READY") + " (⬆️)</span> "; 
+        if(hasWeapon) {
+            let ammoTxt = inGameWeaponLevel > 1 ? " [" + weaponAmmo + "]" : " [∞]";
+            s+="<span class='red'>⚔️ LV" + inGameWeaponLevel + ammoTxt + "</span> ";
+        } 
         document.getElementById("buffDisplay").innerHTML=s; 
     }
 
@@ -953,7 +984,7 @@
         else { camera.fov += (baseFov - camera.fov)*0.1; camera.updateProjectionMatrix(); }
         
         if(weaponCooldown>0) { weaponCooldown--; }
-        updateBuffUI();
+        updateBuffUI();
 
         if (!bossActive) {
             if (bossCooldown > 0) {
@@ -961,7 +992,11 @@
             } else if (score >= nextBossScore) {
                 bossActive = true; 
                 bossTimer = 1000; 
-                bossHP = 5; 
+                bossMaxHP = 40 + (currentBiomeIndex * 20); // HP raddoppiati per bilanciare la doppietta
+                bossHP = bossMaxHP;
+                bossHPBar3D.visible = true;
+                hpBarFill.scale.x = 1;
+                hpBarFill.position.x = 0; 
                 invincibleTimer = 60; 
                 showFloatingText(i18n[lang].boss || "WARNING! BOSS INCOMING!");
                 
@@ -1006,12 +1041,7 @@
                 else { coinsCollected=Math.max(0,coinsCollected-30); document.getElementById("coins").innerText=coinsCollected; triggerGameOver(); }
             }
             
-            bossTimer--; 
-            if(bossTimer<=0) { 
-                bossActive=false; 
-                showFloatingText(lang === 'it' ? "LIVELLO COMPLETATO!" : "STAGE CLEARED!"); 
-                triggerNextStage(); 
-            } 
+            if(bossTimer > 0) bossTimer--; else bossTimer = 500; // Resetta il timer solo per i pattern di attacco 
         } else { bossGroup.position.z += (-100 - bossGroup.position.z) * 0.02; }
 
         for(let i=particles.length-1;i>=0;i--){ let p=particles[i]; p.position.add(p.velocity); p.life--; p.scale.multiplyScalar(0.9); if(p.life<=0){ scene.remove(p); particles.splice(i,1); } }
@@ -1028,11 +1058,16 @@
             else if(p.projType === 'cap') p.rotation.z += 0.4;
             else if(p.projType === 'rock') { p.rotation.x += 0.3; p.rotation.y += 0.3; }
             
-            if(bossActive && Math.abs(p.position.z - bossGroup.position.z) < 3.5 && Math.abs(p.position.x - bossGroup.position.x) < 2.5) {
+            // Hitbox più stretta: solo il colpo centrale del ventaglio deve colpire il boss!
+            if(bossActive && Math.abs(p.position.z - bossGroup.position.z) < 3.5 && Math.abs(p.position.x - bossGroup.position.x) < 0.8) {
                 spawnParticles(bossGroup.position.x, bossGroup.position.y+1, bossGroup.position.z, 0xff3333, 20); sfxExplosion(); addCombo(); cameraShake = 0.2;
                 bossHP--; bossGroup.position.z -= 2; 
+                let hpPercent = Math.max(0, bossHP / bossMaxHP);
+                hpBarFill.scale.x = hpPercent;
+                hpBarFill.position.x = -(4 * (1 - hpPercent)) / 2; // Mantiene l'allineamento a sinistra
                 if(bossHP <= 0) { 
-                    bossActive = false; coinsCollected += 100; spawnParticles(bossGroup.position.x, bossGroup.position.y+1, bossGroup.position.z, 0xffcc00, 50); 
+                    bossHPBar3D.visible = false;
+                    bossActive = false; coinsCollected += 100; spawnParticles(bossGroup.position.x, bossGroup.position.y+1, bossGroup.position.z, 0xffcc00, 50); 
                     showFloatingText(lang === 'it' ? "BOSS SCONFITTO!" : "BOSS DEFEATED!"); 
                     triggerNextStage();
                 }
@@ -1041,9 +1076,18 @@
             
             let hit = false;
             for(let j=obstacles.length-1; j>=0; j--) {
-                let o = obstacles[j]; let dZ = Math.abs(p.position.z - o.position.z); let dX = Math.abs(p.position.x - o.position.x); let dY = Math.abs(playerY - o.position.y);
-                if(dZ < 1.5 && dX < 1.5 && dY < 2.5) { spawnParticles(o.position.x, o.position.y+1, o.position.z, 0xffaa00, 20); sfxExplosion(); scene.remove(o); obstacles.splice(j, 1); hit = true; addCombo(); cameraShake=0.2; break; }
-            }
+                let o = obstacles[j]; let dZ = Math.abs(p.position.z - o.position.z); let dX = Math.abs(p.position.x - o.position.x); let dY = Math.abs(playerY - o.position.y);
+                if(dZ < 1.5 && dX < 1.5 && dY < 2.5) { 
+                    hit = true;
+                    sfxExplosion();
+                    if(o.obsType === "movingTrain" || o.obsType === "crossing" || (o.obsType && o.obsType.startsWith("boss_"))) {
+                        spawnParticles(p.position.x, p.position.y, p.position.z, 0x888888, 10);
+                    } else {
+                        spawnParticles(o.position.x, o.position.y+1, o.position.z, 0xffaa00, 20); scene.remove(o); obstacles.splice(j, 1); addCombo(); cameraShake=0.2; 
+                    }
+                    break; 
+                }
+            }
             if(hit || p.position.z < -100) { scene.remove(p); projectiles.splice(i, 1); }
         }
 
@@ -1054,7 +1098,7 @@
                 if(Math.random()<0.1) spawnParticles(o.position.x, o.position.y+3.5, o.position.z - o.tLen/2 + 0.5, 0xaaaaaa, 1);
             }
             else if(o.obsType==="crossing") {
-                if(Math.abs(o.position.z - playerGroup.position.z) < 40) o.position.x -= (o.dir * 0.15);
+                if(Math.abs(o.position.z - playerGroup.position.z) < 50) o.position.x -= (o.dir * currentSpeed * 0.45);
                 o.position.z+=currentSpeed;
             }
             else o.position.z+=currentSpeed;
@@ -1120,7 +1164,14 @@
                     else if(b.boostType==='magnet'){magnetActive=true;magnetTimer=600+(upgLevels.magnet-1)*300;spawnParticles(b.position.x,b.position.y,b.position.z,0x00ffcc,20); showFloatingText(lang === 'it' ? "CALAMITA!" : "MAGNET!"); }
                     else if(b.boostType==='jetpack'){jetpackTimer=300+(upgLevels.jetpack-1)*150;spawnParticles(b.position.x,b.position.y,b.position.z,0xff00ff,20); showFloatingText("JETPACK!"); } 
                     else if(b.boostType==='sonic'){sonicTimer=300+(upgLevels.sonic-1)*150;spawnParticles(b.position.x,b.position.y,b.position.z,0xffffff,30); showFloatingText("SONIC BOOM!");} 
-                    else if(b.boostType==='weapon'){hasWeapon=true; if(inGameWeaponLevel < 3) inGameWeaponLevel++; spawnParticles(b.position.x,b.position.y,b.position.z,0xff3333,20); showFloatingText((lang === 'it' ? "MUNIZIONI LV" : "AMMO LV") + inGameWeaponLevel); } 
+                    else if(b.boostType==='weapon'){
+                        hasWeapon=true; 
+                        if(inGameWeaponLevel < 3) inGameWeaponLevel++; 
+                        // Diamo 15 colpi base + 10 per ogni livello del caricatore comprato
+                        weaponAmmo += (15 + (upgLevels.ammo - 1) * 10); 
+                        spawnParticles(b.position.x,b.position.y,b.position.z,0xff3333,20); 
+                        showFloatingText((lang === 'it' ? "MUNIZIONI LV" : "AMMO LV") + inGameWeaponLevel); 
+                    } 
                 }
                 updateBuffUI(); scene.remove(b); trackBoosts.splice(i,1); i--; 
             }else if(b.position.z>10){scene.remove(b);trackBoosts.splice(i,1);i--;}
