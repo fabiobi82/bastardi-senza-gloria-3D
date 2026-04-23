@@ -97,8 +97,9 @@
             
             <div id="guide-it" class="lang-it">
                 <h3>I BASTARDI (SKINS)</h3>
-                <div class="item-row"><span class="item-icon">🐵</span> <p><b>MAPUKE:</b> Il bastardo base. Lancia tappi di birra e non ha bonus.</p></div>
-                <div class="item-row"><span class="item-icon">🦖</span> <p><b>LORD PINZU:</b> Salto lunare (gravità ridotta) e lancia palle di fuoco.</p></div>
+                <div class="item-row"><span class="item-icon">👤</span> <p><b>BOB BASE:</b> Il pincopallottola. Nessun bonus.</p></div>
+                <div class="item-row"><span class="item-icon">🐵</span> <p><b>MAPUKE:</b> Salto lunare (gravità ridotta) e lancia tappi.</p></div>
+                <div class="item-row"><span class="item-icon">🦖</span> <p><b>LORD PINZU:</b> Immune alle barriere basse e lancia fuoco.</p></div>
                 <div class="item-row"><span class="item-icon">🐶</span> <p><b>NIDDU:</b> Fiuto per i soldi (Monete x2) e lancia ossa affilate.</p></div>
 
                 <h3>POWER-UPS (I BUONI)</h3>
@@ -118,8 +119,9 @@
 
             <div id="guide-en" class="lang-en" style="display: none;">
                 <h3>THE BASTERDS (SKINS)</h3>
-                <div class="item-row"><span class="item-icon">🐵</span> <p><b>MAPUKE:</b> The basic basterd. Throws beer caps. No bonus.</p></div>
-                <div class="item-row"><span class="item-icon">🦖</span> <p><b>LORD PINZU:</b> Moon jump (lower gravity) and shoots fireballs.</p></div>
+                <div class="item-row"><span class="item-icon">👤</span> <p><b>BASE BOB:</b> The average guy. No bonus.</p></div>
+                <div class="item-row"><span class="item-icon">🐵</span> <p><b>MAPUKE:</b> Moon jump (lower gravity) and throws caps.</p></div>
+                <div class="item-row"><span class="item-icon">🦖</span> <p><b>LORD PINZU:</b> Immune to low barriers and shoots fireballs.</p></div>
                 <div class="item-row"><span class="item-icon">🐶</span> <p><b>NIDDU:</b> Money sniffer (Coins x2) and throws sharp bones.</p></div>
 
                 <h3>POWER-UPS (THE GOOD)</h3>
@@ -147,8 +149,9 @@
         
         <div class="shop-row">
             <div class="shop-section-title" id="txSkinsTitle">I BASTARDI</div>
-            <div class="shop-item"><h3 style="color:#D2B48C;">Mapuke</h3><p style="font-size: 14px; color:#aaa;" id="txSkinBaseDesc">Lancia Tappi. Nessun bonus.</p><div id="skin-default-btn"></div></div>
-            <div class="shop-item"><h3 style="color:#32CD32;">Lord Pinzu</h3><p style="font-size: 14px; color:#00ffcc;" id="txSkinPinzuDesc">Salto Super + Fuoco</p><div id="skin-pinzu-btn"></div></div>
+            <div class="shop-item"><h3 style="color:#aaaaaa;">Bob Base</h3><p style="font-size: 14px; color:#aaa;" id="txSkinBaseDesc">Nessun bonus.</p><div id="skin-base-btn"></div></div>
+            <div class="shop-item"><h3 style="color:#D2B48C;">Mapuke</h3><p style="font-size: 14px; color:#00ffcc;" id="txSkinMapukeDesc">Salto Super + Tappi</p><div id="skin-default-btn"></div></div>
+            <div class="shop-item"><h3 style="color:#32CD32;">Lord Pinzu</h3><p style="font-size: 14px; color:#00ffcc;" id="txSkinPinzuDesc">Immune Barriere + Fuoco</p><div id="skin-pinzu-btn"></div></div>
             <div class="shop-item"><h3 style="color:#ffffff;">Niddu</h3><p style="font-size: 14px; color:#ffcc00;" id="txSkinNidduDesc">Monete x2 + Ossa</p><div id="skin-niddu-btn"></div></div>
         </div>
 
@@ -197,8 +200,8 @@
 <script>
     // --- I18N ---
     const i18n = {
-        it: { flag: "🇮🇹", title: "BASTARDI SENZA GLORIA 3D", play: "GIOCA", shop: "SHOP", missions: "MISSIONI", guide: "GUIDA", guideTitle: "MANUALE DEL BASTARDO", hs: "HIGH SCORE:", bank: "Banca:", hudCoins: "Monete:", controls: "⬅️ ➡️ Sposta | <b>SPAZIO</b> Salta | ⬇️ Scivola (Tieni premuto) | ⬆️ Lancia | <b>ESC</b> Pausa | <b>G</b> GodMode", shopTitle: "Taverna / Shop", shopCoins: "Monete:", skinsTitle: "I BASTARDI", powerupsTitle: "POTENZIAMENTI DEFINITIVI", buy: "Compra", equip: "Equipaggia", equipped: "Equipaggiato", back: "INDIETRO", pause: "PAUSA", pauseDesc: "Premi ESC per riprendere", resume: "RIPRENDI", quit: "ABBANDONA RUN", crash: "SCHIANTO!", finalScore: "Score Finale:", finalCoins: "Monete:", retry: "RIPROVA", menu: "MENU", mTitle: "Missioni", mDesc: "Sali di livello completando le sfide!", claim: "Riscatta", completed: "Completata", m1: "Raccogli Monete", m2: "Esegui Scivolate", m3: "Gioca Partite", shieldName: "Scudo 🛡️", magnetName: "Calamita 🧲", owned: "Posseduti:", upgMagnet: "Lvl Calamita", upgJetpack: "Lvl Jetpack", upgSonic: "Lvl Sonic Boom", upgWeapon: "Lvl Arma", max: "MAX", boss: "WARNING! BOSS IN ARRIVO!", dodge: "SCHIVATA!", speedUp: "VELOCITÀ SUPER!", descBase: "Lancia Tappi. Nessun bonus.", descPinzu: "Salto Super + Fuoco", descNiddu: "Monete x2 + Ossa", consumablesTitle: "SCORTE" },
-        en: { flag: "🇬🇧", title: "INGLOURIOUS BASTERDS 3D", play: "PLAY", shop: "STORE", missions: "MISSIONS", guide: "GUIDE", guideTitle: "BASTERDS MANUAL", hs: "HIGH SCORE:", bank: "Bank:", hudCoins: "Coins:", controls: "⬅️ ➡️ Move | <b>SPACE</b> Jump | ⬇️ Slide (Hold) | ⬆️ Throw | <b>ESC</b> Pause | <b>G</b> GodMode", shopTitle: "Tavern / Store", shopCoins: "Coins:", skinsTitle: "THE BASTERDS", powerupsTitle: "PERMANENT UPGRADES", buy: "Buy", equip: "Equip", equipped: "Equipped", back: "BACK", pause: "PAUSED", pauseDesc: "Press ESC to resume", resume: "RESUME", quit: "QUIT RUN", crash: "CRASHED!", finalScore: "Final Score:", finalCoins: "Coins:", retry: "RETRY", menu: "MENU", mTitle: "Missions", mDesc: "Level up by completing tasks!", claim: "Claim", completed: "Completed", m1: "Collect Coins", m2: "Perform Slides", m3: "Play Games", shieldName: "Shield 🛡️", magnetName: "Magnet 🧲", owned: "Owned:", upgMagnet: "Magnet Lvl", upgJetpack: "Jetpack Lvl", upgSonic: "Sonic Lvl", upgWeapon: "Weapon Lvl", max: "MAX", boss: "WARNING! BOSS INCOMING!", dodge: "CLOSE CALL!", speedUp: "SPEED UP!", descBase: "Throws Caps. No bonus.", descPinzu: "Super Jump + Fire", descNiddu: "Coins x2 + Bones", consumablesTitle: "SUPPLIES" }
+        it: { flag: "🇮🇹", title: "BASTARDI SENZA GLORIA 3D", play: "GIOCA", shop: "SHOP", missions: "MISSIONI", guide: "GUIDA", guideTitle: "MANUALE DEL BASTARDO", hs: "HIGH SCORE:", bank: "Banca:", hudCoins: "Monete:", controls: "⬅️ ➡️ Sposta | <b>SPAZIO</b> Salta | ⬇️ Scivola (Tieni premuto) | ⬆️ Lancia | <b>ESC</b> Pausa | <b>G</b> GodMode", shopTitle: "Taverna / Shop", shopCoins: "Monete:", skinsTitle: "I BASTARDI", powerupsTitle: "POTENZIAMENTI DEFINITIVI", buy: "Compra", equip: "Equipaggia", equipped: "Equipaggiato", back: "INDIETRO", pause: "PAUSA", pauseDesc: "Premi ESC per riprendere", resume: "RIPRENDI", quit: "ABBANDONA RUN", crash: "SCHIANTO!", finalScore: "Score Finale:", finalCoins: "Monete:", retry: "RIPROVA", menu: "MENU", mTitle: "Missioni", mDesc: "Sali di livello completando le sfide!", claim: "Riscatta", completed: "Completata", m1: "Raccogli Monete", m2: "Esegui Scivolate", m3: "Gioca Partite", shieldName: "Scudo 🛡️", magnetName: "Calamita 🧲", owned: "Posseduti:", upgMagnet: "Lvl Calamita", upgJetpack: "Lvl Jetpack", upgSonic: "Lvl Sonic Boom", upgWeapon: "Lvl Arma", max: "MAX", boss: "WARNING! BOSS IN ARRIVO!", dodge: "SCHIVATA!", speedUp: "VELOCITÀ SUPER!", descBase: "Nessun bonus.", descMapuke: "Salto Super + Tappi", descPinzu: "Immune Barriere + Fuoco", descNiddu: "Monete x2 + Ossa", consumablesTitle: "SCORTE" },
+        en: { flag: "🇬🇧", title: "INGLOURIOUS BASTERDS 3D", play: "PLAY", shop: "STORE", missions: "MISSIONS", guide: "GUIDE", guideTitle: "BASTERDS MANUAL", hs: "HIGH SCORE:", bank: "Bank:", hudCoins: "Coins:", controls: "⬅️ ➡️ Move | <b>SPACE</b> Jump | ⬇️ Slide (Hold) | ⬆️ Throw | <b>ESC</b> Pause | <b>G</b> GodMode", shopTitle: "Tavern / Store", shopCoins: "Coins:", skinsTitle: "THE BASTERDS", powerupsTitle: "PERMANENT UPGRADES", buy: "Buy", equip: "Equip", equipped: "Equipped", back: "BACK", pause: "PAUSED", pauseDesc: "Press ESC to resume", resume: "RESUME", quit: "QUIT RUN", crash: "CRASHED!", finalScore: "Final Score:", finalCoins: "Coins:", retry: "RETRY", menu: "MENU", mTitle: "Missions", mDesc: "Level up by completing tasks!", claim: "Claim", completed: "Completed", m1: "Collect Coins", m2: "Perform Slides", m3: "Play Games", shieldName: "Shield 🛡️", magnetName: "Magnet 🧲", owned: "Owned:", upgMagnet: "Magnet Lvl", upgJetpack: "Jetpack Lvl", upgSonic: "Sonic Lvl", upgWeapon: "Weapon Lvl", max: "MAX", boss: "WARNING! BOSS INCOMING!", dodge: "CLOSE CALL!", speedUp: "SPEED UP!", descBase: "No bonus.", descMapuke: "Super Jump + Caps", descPinzu: "Immune Barriers + Fire", descNiddu: "Coins x2 + Bones", consumablesTitle: "SUPPLIES" }
     };
 
     let lang = localStorage.getItem('runnerLang') || 'it';
@@ -212,7 +215,7 @@
         document.getElementById("txControls").innerHTML=t.controls; document.getElementById("txHudCoins").innerText=t.hudCoins; 
         document.getElementById("txShopTitle").innerText=t.shopTitle; document.getElementById("txShopCoins").innerText=t.shopCoins; 
         document.getElementById("txSkinsTitle").innerText=t.skinsTitle;
-        document.getElementById("txSkinBaseDesc").innerText=t.descBase; document.getElementById("txSkinPinzuDesc").innerText=t.descPinzu; document.getElementById("txSkinNidduDesc").innerText=t.descNiddu;
+        document.getElementById("txSkinBaseDesc").innerText=t.descBase; document.getElementById("txSkinMapukeDesc").innerText=t.descMapuke; document.getElementById("txSkinPinzuDesc").innerText=t.descPinzu; document.getElementById("txSkinNidduDesc").innerText=t.descNiddu;
         document.getElementById("txPowerupsTitle").innerText=t.powerupsTitle; document.getElementById("btnBackShop").innerText=t.back;
         document.getElementById("txPauseTitle").innerText=t.pause; document.getElementById("txPauseDesc").innerText=t.pauseDesc;
         document.getElementById("btnResume").innerText=t.resume; document.getElementById("btnQuit").innerText=t.quit;
@@ -283,14 +286,15 @@
     let missions = JSON.parse(localStorage.getItem('runnerMissionsV2')) || [{id:'m1', type:'totalCoins', level:0, tiers:[{g:500,r:300}, {g:2000,r:800}, {g:5000,r:1500}]}, {id:'m2', type:'totalSlides', level:0, tiers:[{g:50,r:150}, {g:200,r:400}, {g:500,r:1000}]}, {id:'m3', type:'gamesPlayed', level:0, tiers:[{g:10,r:200}, {g:50,r:500}, {g:100,r:1200}]}];
     
     const skinData = { 
-        'default':{cost:0, body:0x8B4513, skin:0xD2B48C}, 
+        'base':{cost:0, body:0x555555, skin:0xcccccc},
+        'default':{cost:100, body:0x8B4513, skin:0xD2B48C}, 
         'pinzu':{cost:200, body:0x006400, skin:0x32CD32}, 
         'niddu':{cost:500, body:0xffffff, skin:0x8B4513}  
     };
     
-    let unlockedSkins = JSON.parse(localStorage.getItem('runnerSkins')) || ['default'];
-    unlockedSkins = unlockedSkins.filter(id => skinData[id]); if(unlockedSkins.length === 0) unlockedSkins = ['default'];
-    let currentSkin = localStorage.getItem('runnerEquipped') || 'default'; if(!skinData[currentSkin]) currentSkin = 'default';
+    let unlockedSkins = JSON.parse(localStorage.getItem('runnerSkins')) || ['base'];
+    unlockedSkins = unlockedSkins.filter(id => skinData[id]); if(unlockedSkins.length === 0) unlockedSkins = ['base'];
+    let currentSkin = localStorage.getItem('runnerEquipped') || 'base'; if(!skinData[currentSkin]) currentSkin = 'base';
     
     function saveStats() { localStorage.setItem('runnerStats', JSON.stringify(stats)); }
     function updateBankDisplay() { document.getElementById("bankCoins").innerText=totalBankCoins; document.getElementById("shopCoins").innerText=totalBankCoins; document.getElementById("highScoreDisplay").innerText=highScore; }
@@ -315,7 +319,7 @@
             else { btn.innerText = `Up (${cost})`; btn.disabled = totalBankCoins < cost; btn.style.background = "#4CAF50"; }
         });
 
-        ['default', 'pinzu', 'niddu'].forEach(id => { 
+        ['base', 'default', 'pinzu', 'niddu'].forEach(id => { 
             let container = document.getElementById(`skin-${id}-btn`); 
             if (currentSkin === id) { container.innerHTML = `<button class="btn btn-buy" disabled style="background:#555;color:white;">${t.equipped}</button>`; } 
             else if (unlockedSkins.includes(id)) { container.innerHTML = `<button class="btn btn-equip" onclick="equipSkin('${id}')">${t.equip}</button>`; } 
@@ -475,7 +479,9 @@
         let eyeL = new THREE.Mesh(eyeGeo, eyeMat); eyeL.position.set(-0.2, 0.1, -0.41); headGroup.add(eyeL);
         let eyeR = new THREE.Mesh(eyeGeo, eyeMat); eyeR.position.set(0.2, 0.1, -0.41); headGroup.add(eyeR);
 
-        if (type === 'default') {
+        if (type === 'base') {
+            let mouth = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.1, 0.1), new THREE.MeshBasicMaterial({color: 0x222222})); mouth.position.set(0, -0.2, -0.41); headGroup.add(mouth);
+        } else if (type === 'default') {
             let mouth = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.1, 0.1), new THREE.MeshBasicMaterial({color: 0x331100})); mouth.position.set(0, -0.2, -0.41); headGroup.add(mouth);
             let earGeo = new THREE.BoxGeometry(0.2, 0.3, 0.1); let earMat = new THREE.MeshLambertMaterial({color: skinC});
             let earL = new THREE.Mesh(earGeo, earMat); earL.position.set(-0.45, 0, 0); headGroup.add(earL);
@@ -534,7 +540,7 @@
         beer.name = "floatingBeer";
         beer.position.set(0, (id==='pinzu'?-0.2:-0.6), -0.2); 
         beer.rotation.x = -Math.PI / 4;
-        armR.add(beer);
+        if(id !== 'base') armR.add(beer);
 
         renderShop(); 
     }
@@ -544,7 +550,7 @@
     let gameState = "MENU"; let score=0; let coinsCollected=0; let multiplier=1; let gameSpeed=0.4; let sonicTimer = 0;
     let currentLane=1; let playerY=0; let isJumping=false; let jumpVelocity=0; let pGravity=-0.025; let coinMult=1;
     let isDucking=false; let duckTimer=0; let magnetActive=false; let magnetTimer=0; let shieldActive=false;
-    let jetpackTimer=0; let oilTimer=0; let chainTimer=0; let empTimer=0; let invincibleTimer=0; let weaponCooldown=0; let hasWeapon=false;
+    let jetpackTimer=0; let oilTimer=0; let chainTimer=0; let empTimer=0; let invincibleTimer=0; let weaponCooldown=0; let hasWeapon=false; let inGameWeaponLevel=0;
     let runTime = 0; 
     
     let bossActive=false; let bossTimer=0; let bossHP=5; let currentBiomeIndex=0; let bossCooldown=1000; let nextBossScore=1000;
@@ -624,10 +630,10 @@
         
         playerGroup.rotation.set(0, 0, 0); 
         cameraShake=0; currentBiomeIndex=0; sonicTimer = 0; nextBossScore=1000; runTime=0;
-        bossActive=false; bossGroup.position.z=40; jetpackTimer=0; oilTimer=0; chainTimer=0; empTimer=0; invincibleTimer=0; weaponCooldown=0; hasWeapon=false; playerGroup.visible=true; baseFov=60; camera.fov=baseFov; camera.updateProjectionMatrix();
+        bossActive=false; bossGroup.position.z=40; jetpackTimer=0; oilTimer=0; chainTimer=0; empTimer=0; invincibleTimer=0; weaponCooldown=0; hasWeapon=false; inGameWeaponLevel=0; playerGroup.visible=true; baseFov=60; camera.fov=baseFov; camera.updateProjectionMatrix();
         bossCooldown=1000;
         stats.gamesPlayed++; saveStats(); 
-        pGravity = currentSkin === 'pinzu' ? -0.015 : -0.025;
+        pGravity = currentSkin === 'default' ? -0.015 : -0.025;
         coinMult = currentSkin === 'niddu' ? 2 : 1;
 
         obstacles.forEach(o=>scene.remove(o)); obstacles=[]; coins.forEach(c=>scene.remove(c)); coins=[]; trackBoosts.forEach(b=>scene.remove(b)); trackBoosts=[]; particles.forEach(p=>scene.remove(p)); particles=[]; sleepers.forEach(s=>scene.remove(s)); sleepers=[]; projectiles.forEach(p=>scene.remove(p)); projectiles=[]; envObjects.forEach(e=>scene.remove(e)); envObjects=[];
@@ -653,20 +659,40 @@
     }
 
     function fireWeapon() {
-        let proj = new THREE.Group();
-        if(currentSkin === 'pinzu') {
-            let s = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), new THREE.MeshBasicMaterial({color: 0xff4500})); proj.add(s); proj.projType = 'fire';
-        } else if(currentSkin === 'niddu') {
-            let b = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.6, 8), new THREE.MeshBasicMaterial({color: 0xffffff})); b.rotation.z = Math.PI/2;
-            let b1 = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshBasicMaterial({color: 0xffffff})); b1.position.set(0.3, 0, 0);
-            let b2 = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshBasicMaterial({color: 0xffffff})); b2.position.set(-0.3, 0, 0);
-            proj.add(b); proj.add(b1); proj.add(b2); proj.projType = 'bone';
-        } else {
-            let cap = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.05, 16), new THREE.MeshBasicMaterial({color: 0xdddddd})); cap.rotation.x = Math.PI/2; 
-            let logo = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.06, 16), new THREE.MeshBasicMaterial({color: 0xff0000})); logo.rotation.x = Math.PI/2;
-            proj.add(cap); proj.add(logo); proj.projType = 'cap';
+        let numProjectiles = inGameWeaponLevel; 
+        let spread = 0.5; 
+
+        for(let i=0; i<numProjectiles; i++) {
+            let proj = new THREE.Group();
+            
+            if(currentSkin === 'base') {
+                let rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.15), new THREE.MeshLambertMaterial({color: 0x888888}));
+                rock.castShadow = true; proj.add(rock); proj.projType = 'rock';
+            } else if(currentSkin === 'pinzu') {
+                let s = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), new THREE.MeshBasicMaterial({color: 0xff4500})); proj.add(s); proj.projType = 'fire';
+            } else if(currentSkin === 'niddu') {
+                let b = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.6, 8), new THREE.MeshBasicMaterial({color: 0xffffff})); b.rotation.z = Math.PI/2;
+                let b1 = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshBasicMaterial({color: 0xffffff})); b1.position.set(0.3, 0, 0);
+                let b2 = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshBasicMaterial({color: 0xffffff})); b2.position.set(-0.3, 0, 0);
+                proj.add(b); proj.add(b1); proj.add(b2); proj.projType = 'bone';
+            } else {
+                let cap = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.05, 16), new THREE.MeshBasicMaterial({color: 0xdddddd})); cap.rotation.x = Math.PI/2; 
+                let logo = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.06, 16), new THREE.MeshBasicMaterial({color: 0xff0000})); logo.rotation.x = Math.PI/2;
+                proj.add(cap); proj.add(logo); proj.projType = 'cap';
+            }
+            
+            let offsetX = 0;
+            if(numProjectiles === 2) offsetX = (i === 0) ? -spread/2 : spread/2;
+            if(numProjectiles === 3) offsetX = (i === 0) ? -spread : (i === 2 ? spread : 0);
+
+            proj.position.set(playerGroup.position.x + offsetX, playerY + 1, playerGroup.position.z - 1);
+            
+            proj.velX = (numProjectiles > 1) ? (offsetX * 0.1) : 0; 
+            proj.velZ = -(gameSpeed + 0.3 + (inGameWeaponLevel * 0.1)); 
+            
+            scene.add(proj); projectiles.push(proj);
         }
-        proj.position.set(playerGroup.position.x, playerY + 1, playerGroup.position.z - 1); scene.add(proj); projectiles.push(proj); sfxShoot();
+        sfxShoot();
     }
 
     function spawnBossHazard(bx, bz, type) {
@@ -791,7 +817,7 @@
         if(empTimer>0) s+="<span class='cyan'>⚡ " + Math.ceil(empTimer/60) + "s</span> "; 
         if(sonicTimer>0) s+="<span class='white'>⚡ " + Math.ceil(sonicTimer/60) + "s</span> "; 
         
-        if(hasWeapon) s+="<span class='red'>⚔️ " + (lang==='it' ? "PRONTO" : "READY") + " (⬆️)</span> "; 
+        if(hasWeapon) s+="<span class='red'>⚔️ LV" + inGameWeaponLevel + " " + (lang==='it' ? "PRONTO" : "READY") + " (⬆️)</span> "; 
         document.getElementById("buffDisplay").innerHTML=s; 
     }
 
@@ -994,10 +1020,13 @@
         sleeperTimer += currentSpeed; if(sleeperTimer>2){ spawnSleeper(-80); sleeperTimer=0; }
 
         for(let i=projectiles.length-1; i>=0; i--) {
-            let p = projectiles[i]; p.position.z -= (currentSpeed + 0.3); 
+            let p = projectiles[i]; 
+            p.position.z += p.velZ || -(currentSpeed + 0.3); 
+            p.position.x += p.velX || 0;
             if(p.projType === 'fire') p.rotation.x += 0.5; 
             else if(p.projType === 'bone') p.rotation.y += 0.4;
             else if(p.projType === 'cap') p.rotation.z += 0.4;
+            else if(p.projType === 'rock') { p.rotation.x += 0.3; p.rotation.y += 0.3; }
             
             if(bossActive && Math.abs(p.position.z - bossGroup.position.z) < 3.5 && Math.abs(p.position.x - bossGroup.position.x) < 2.5) {
                 spawnParticles(bossGroup.position.x, bossGroup.position.y+1, bossGroup.position.z, 0xff3333, 20); sfxExplosion(); addCombo(); cameraShake = 0.2;
@@ -1062,7 +1091,7 @@
                 }
 
                 let hit=false; 
-                if(o.obsType==="low" && playerY<1.2 && jetpackTimer<=0) hit=true; 
+                if(o.obsType==="low" && playerY<1.2 && jetpackTimer<=0 && currentSkin!=="pinzu") hit=true; 
                 if((o.obsType==="wall"||o.obsType==="movingTrain"||o.obsType==="crossing") && playerY<2.8 && jetpackTimer<=0) hit=true; 
                 if(o.obsType==="high" && !isDucking && playerY<3.5 && jetpackTimer<=0) hit=true; 
                 
@@ -1091,7 +1120,7 @@
                     else if(b.boostType==='magnet'){magnetActive=true;magnetTimer=600+(upgLevels.magnet-1)*300;spawnParticles(b.position.x,b.position.y,b.position.z,0x00ffcc,20); showFloatingText(lang === 'it' ? "CALAMITA!" : "MAGNET!"); }
                     else if(b.boostType==='jetpack'){jetpackTimer=300+(upgLevels.jetpack-1)*150;spawnParticles(b.position.x,b.position.y,b.position.z,0xff00ff,20); showFloatingText("JETPACK!"); } 
                     else if(b.boostType==='sonic'){sonicTimer=300+(upgLevels.sonic-1)*150;spawnParticles(b.position.x,b.position.y,b.position.z,0xffffff,30); showFloatingText("SONIC BOOM!");} 
-                    else if(b.boostType==='weapon'){hasWeapon=true;spawnParticles(b.position.x,b.position.y,b.position.z,0xff3333,20); showFloatingText(lang === 'it' ? "MUNIZIONI!" : "AMMO!"); } 
+                    else if(b.boostType==='weapon'){hasWeapon=true; if(inGameWeaponLevel < 3) inGameWeaponLevel++; spawnParticles(b.position.x,b.position.y,b.position.z,0xff3333,20); showFloatingText((lang === 'it' ? "MUNIZIONI LV" : "AMMO LV") + inGameWeaponLevel); } 
                 }
                 updateBuffUI(); scene.remove(b); trackBoosts.splice(i,1); i--; 
             }else if(b.position.z>10){scene.remove(b);trackBoosts.splice(i,1);i--;}
